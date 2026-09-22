@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import Student from "./Student";
 import "./App.css";
 
 function App() {
@@ -34,7 +35,10 @@ function App() {
 
         } catch (error) {
 
-            alert(error.response?.data?.message || "Signup failed");
+            alert(
+                error.response?.data?.message ||
+                "Signup failed"
+            );
 
         }
     };
@@ -57,12 +61,21 @@ function App() {
             setEmail("");
             setPassword("");
 
+            setPage("student");
+
         } catch (error) {
 
-            alert(error.response?.data?.message || "Login failed");
+            alert(
+                error.response?.data?.message ||
+                "Login failed"
+            );
 
         }
     };
+
+    if (page === "student") {
+        return <Student />;
+    }
 
     return (
         <div className="main-container">
@@ -70,8 +83,11 @@ function App() {
             <div className="auth-card">
 
                 <div className="auth-header">
+
                     <h1>
-                        {page === "signup" ? "Create Account" : "Welcome Back"}
+                        {page === "signup"
+                            ? "Create Account"
+                            : "Welcome Back"}
                     </h1>
 
                     <p>
@@ -79,6 +95,7 @@ function App() {
                             ? "Create your account to get started"
                             : "Login to continue to your account"}
                     </p>
+
                 </div>
 
                 {page === "signup" ? (
@@ -86,39 +103,54 @@ function App() {
                     <form onSubmit={handleSignup}>
 
                         <div className="input-group">
+
                             <label>Full Name</label>
 
                             <input
                                 type="text"
                                 value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                onChange={(e) =>
+                                    setName(e.target.value)
+                                }
                                 placeholder="Enter your full name"
                             />
+
                         </div>
 
                         <div className="input-group">
+
                             <label>Email Address</label>
 
                             <input
                                 type="email"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) =>
+                                    setEmail(e.target.value)
+                                }
                                 placeholder="Enter your email"
                             />
+
                         </div>
 
                         <div className="input-group">
+
                             <label>Password</label>
 
                             <input
                                 type="password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) =>
+                                    setPassword(e.target.value)
+                                }
                                 placeholder="Enter your password"
                             />
+
                         </div>
 
-                        <button className="main-button" type="submit">
+                        <button
+                            className="main-button"
+                            type="submit"
+                        >
                             Create Account
                         </button>
 
@@ -129,28 +161,39 @@ function App() {
                     <form onSubmit={handleLogin}>
 
                         <div className="input-group">
+
                             <label>Email Address</label>
 
                             <input
                                 type="email"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) =>
+                                    setEmail(e.target.value)
+                                }
                                 placeholder="Enter your email"
                             />
+
                         </div>
 
                         <div className="input-group">
+
                             <label>Password</label>
 
                             <input
                                 type="password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) =>
+                                    setPassword(e.target.value)
+                                }
                                 placeholder="Enter your password"
                             />
+
                         </div>
 
-                        <button className="main-button" type="submit">
+                        <button
+                            className="main-button"
+                            type="submit"
+                        >
                             Login
                         </button>
 
@@ -161,21 +204,29 @@ function App() {
                 <div className="switch-page">
 
                     {page === "signup" ? (
+
                         <p>
                             Already have an account?
 
-                            <button onClick={() => setPage("login")}>
+                            <button
+                                onClick={() => setPage("login")}
+                            >
                                 Login
                             </button>
                         </p>
+
                     ) : (
+
                         <p>
                             Don't have an account?
 
-                            <button onClick={() => setPage("signup")}>
+                            <button
+                                onClick={() => setPage("signup")}
+                            >
                                 Create Account
                             </button>
                         </p>
+
                     )}
 
                 </div>
