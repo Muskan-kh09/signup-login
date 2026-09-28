@@ -123,3 +123,465 @@ body {
         font-size: 26px;
     }
 }
+/* ============================= */
+/* STUDENT PAGE */
+/* ============================= */
+
+.student-container {
+    min-height: 100vh;
+    padding: 40px 20px;
+    background: #f4f6f8;
+}
+
+.student-card {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    background: white;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ============================= */
+/* ADD STUDENT HEADING */
+/* ============================= */
+
+.student-card h1 {
+    text-align: left;
+    font-size: 30px;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.student-card > p {
+    text-align: left;
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+
+/* ============================= */
+/* STUDENT FORM */
+/* ============================= */
+
+.student-card form {
+    width: 100%;
+    margin: 0;
+}
+
+
+/* 2 COLUMNS */
+
+.student-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    width: 100%;
+}
+
+
+/* INPUT GROUP */
+
+.student-form-row .input-group {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+/* LABEL LEFT */
+
+.student-form-row .input-group label {
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+
+/* INPUT */
+
+.student-form-row .input-group input {
+    width: 100%;
+    height: 48px;
+    padding: 12px 15px;
+
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #222;
+
+    font-size: 15px;
+    outline: none;
+
+    transition: 0.2s;
+}
+
+
+/* PLACEHOLDER */
+
+.student-form-row .input-group input::placeholder {
+    color: #9ca3af;
+    opacity: 1;
+}
+
+
+/* INPUT FOCUS */
+
+.student-form-row .input-group input:focus {
+    border-color: #4f46e5;
+
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+
+/* FILE INPUT */
+
+.student-form-row .input-group input[type="file"] {
+    height: 48px;
+    padding: 10px 12px;
+    cursor: pointer;
+    background: #ffffff;
+}
+
+
+/* ============================= */
+/* ADD STUDENT BUTTON */
+/* ============================= */
+
+.student-card form > .main-button {
+    width: 180px;
+    padding: 13px 20px;
+    margin-top: 5px;
+}
+
+
+/* ============================= */
+/* STUDENT LIST */
+/* ============================= */
+
+.student-list {
+    width: 100%;
+    margin-top: 50px;
+    padding-top: 35px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.student-list h2 {
+    text-align: left;
+    font-size: 25px;
+    color: #222;
+    margin-bottom: 25px;
+}
+
+
+/* ============================= */
+/* STUDENT BOX */
+/* ============================= */
+
+.student-box {
+    display: inline-block;
+    vertical-align: top;
+
+    width: calc(33.33% - 22px);
+
+    margin: 10px;
+    padding: 22px;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    text-align: left;
+
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+
+    transition: 0.2s;
+}
+
+.student-box:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+
+/* STUDENT IMAGE */
+
+.student-box img {
+    display: block;
+
+    width: 150px;
+    height: 150px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 4px solid #eef2ff;
+
+    margin: 0 auto 15px;
+}
+
+
+/* STUDENT NAME */
+
+.student-box h3 {
+    text-align: left;
+
+    font-size: 20px;
+    color: #222;
+
+    margin-bottom: 12px;
+}
+
+
+/* STUDENT DETAILS */
+
+.student-box p {
+    text-align: left;
+
+    color: #666;
+    font-size: 14px;
+
+    margin-bottom: 7px;
+
+    word-break: break-word;
+}
+
+
+/* VIEW BUTTON */
+
+.student-box .main-button {
+    width: 100%;
+    margin-top: 12px;
+}
+
+
+/* ============================= */
+/* STUDENT DETAILS PAGE */
+/* ============================= */
+
+.student-card > img {
+    display: block;
+
+    width: 200px;
+    height: 200px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    margin: 25px auto;
+
+    border: 5px solid #eef2ff;
+}
+
+.student-card h2 {
+    text-align: center;
+
+    color: #222;
+
+    font-size: 27px;
+
+    margin-bottom: 20px;
+}
+
+.student-card > p {
+    max-width: 550px;
+
+    margin: 10px auto;
+
+    padding: 12px 15px;
+
+    background: #f8fafc;
+
+    border-radius: 8px;
+
+    color: #555;
+}
+
+
+/* BACK BUTTON */
+
+.student-card > .main-button {
+    display: block;
+
+    max-width: 200px;
+
+    margin: 25px auto 0;
+}
+
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 900px) {
+
+    .student-box {
+        width: calc(50% - 22px);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .student-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .student-card form > .main-button {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .student-container {
+        padding: 20px 10px;
+    }
+
+    .student-card {
+        padding: 25px 18px;
+    }
+
+    .student-card h1 {
+        font-size: 26px;
+    }
+
+    .student-box {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+}
+
+/* DASHBOARD */
+
+.dashboard-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f6f8;
+    padding: 20px;
+}
+
+.dashboard-card {
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    padding: 45px;
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.dashboard-card h1 {
+    font-size: 32px;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.dashboard-card p {
+    color: #777;
+    margin-bottom: 35px;
+}
+
+.dashboard-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.dashboard-buttons .main-button {
+    width: 200px;
+}
+
+@media (max-width: 600px) {
+
+    .dashboard-buttons {
+        flex-direction: column;
+    }
+
+    .dashboard-buttons .main-button {
+        width: 100%;
+    }
+
+}
+
+.back-button {
+    border: none;
+    background: none;
+    color: #4f46e5;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}
+
+.student-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.student-buttons .main-button,
+.student-buttons .edit-button,
+.student-buttons .delete-button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.edit-button {
+    background: #f59e0b;
+    color: white;
+}
+
+.delete-button {
+    background: #dc2626;
+    color: white;
+}
+
+.edit-button:hover {
+    background: #d97706;
+}
+
+.delete-button:hover {
+    background: #b91c1c;
+}
+
+.logout-button {
+    margin-top: 25px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    background: #dc2626;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background: #b91c1c;
+}

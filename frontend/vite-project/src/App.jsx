@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import Dashboard from "./Dashboard";
 import Student from "./Student";
 import "./App.css";
 
@@ -61,7 +62,7 @@ function App() {
             setEmail("");
             setPassword("");
 
-            setPage("student");
+            setPage("dashboard");
 
         } catch (error) {
 
@@ -73,8 +74,8 @@ function App() {
         }
     };
 
-    if (page === "student") {
-        return <Student />;
+    if (page === "dashboard") {
+        return <Dashboard logout={() => setPage("login")} />;
     }
 
     return (
