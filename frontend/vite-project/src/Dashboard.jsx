@@ -12,7 +12,7 @@ function Dashboard({ logout }) {
 
         getStudentCount();
 
-    }, []);
+    }, [page]);
 
     const getStudentCount = async () => {
 

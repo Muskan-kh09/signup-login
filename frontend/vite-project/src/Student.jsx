@@ -307,11 +307,8 @@ function Student({ page, setPage }) {
                         </div>
 
                         <div className="student-form-row">
-
                             <div className="input-group">
-
                                 <label>City</label>
-
                                 <input
                                     type="text"
                                     value={city}
@@ -319,9 +316,7 @@ function Student({ page, setPage }) {
                                     placeholder="Enter city"
                                     required
                                 />
-
                             </div>
-
                             <div className="input-group">
                                 <label>Student Image</label>
                                 <input

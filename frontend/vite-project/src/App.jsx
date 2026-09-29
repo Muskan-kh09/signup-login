@@ -6,7 +6,11 @@ import "./App.css";
 
 function App() {
 
-    const [page, setPage] = useState("signup");
+    const [page, setPage] = useState(
+        localStorage.getItem("isLoggedIn") === "true"
+            ? "dashboard"
+            : "signup"
+    );
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -62,6 +66,8 @@ function App() {
             setEmail("");
             setPassword("");
 
+            localStorage.setItem("isLoggedIn", "true");
+
             setPage("dashboard");
 
         } catch (error) {
@@ -75,7 +81,14 @@ function App() {
     };
 
     if (page === "dashboard") {
-        return <Dashboard logout={() => setPage("login")} />;
+       return (
+            <Dashboard
+                logout={() => {
+                    localStorage.removeItem("isLoggedIn");
+                    setPage("login");
+                }}
+            />
+        );
     }
 
     return (

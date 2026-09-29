@@ -1,6 +1,7 @@
 const express = require("express");
 const Student = require("../models/Student");
 const multer = require("multer");
+const fs = require("fs");
 
 const router = express.Router();
 
@@ -126,7 +127,7 @@ router.delete("/students/:id", async (req, res) => {
 
     try {
 
-        const student = await Student.findByIdAndDelete(
+        const student = await Student.findById(
             req.params.id
         );
 
@@ -135,6 +136,20 @@ router.delete("/students/:id", async (req, res) => {
                 message: "Student not found"
             });
         }
+
+        if (student.image) {
+
+            const imagePath = `uploads/${student.image}`;
+
+            if (fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath);
+            }
+
+        }
+
+        await Student.findByIdAndDelete(
+            req.params.id
+        );
 
         res.status(200).json({
             message: "Student deleted successfully"
