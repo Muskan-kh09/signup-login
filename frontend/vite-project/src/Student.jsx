@@ -219,15 +219,25 @@ function Student({ page, setPage }) {
 
                     <button
                         className="back-button"
-                        onClick={() => setPage("dashboard")}
+                        onClick={() => {
+                            setEditStudent(null);
+                            setName("");
+                            setEmail("");
+                            setPhone("");
+                            setCourse("");
+                            setCity("");
+                            setImage("");
+                            setPage("dashboard");
+                        }}
                     >
                         ← Dashboard
                     </button>
 
-                    <h1>Add Student</h1>
-
+                    <h1>{editStudent ? "Edit Student" : "Add Student"}</h1>
                     <p>
-                        Enter student details below
+                        {editStudent
+                            ? "Update student details below"
+                            : "Enter student details below"}
                     </p>
 
                     <form onSubmit={editStudent ? handleUpdate : handleStudent}>
@@ -313,16 +323,13 @@ function Student({ page, setPage }) {
                             </div>
 
                             <div className="input-group">
-
                                 <label>Student Image</label>
-
                                 <input
                                     type="file"
                                     accept="image/*"
                                     onChange={(e) => setImage(e.target.files[0])}
-                                    required
+                                    required={!editStudent}
                                 />
-
                             </div>
 
                         </div>

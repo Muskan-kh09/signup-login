@@ -1,9 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Student from "./Student";
 
 function Dashboard({ logout }) {
 
     const [page, setPage] = useState("dashboard");
+
+    const [totalStudents, setTotalStudents] = useState(0);
+
+    useEffect(() => {
+
+        getStudentCount();
+
+    }, []);
+
+    const getStudentCount = async () => {
+
+        try {
+
+            const response = await axios.get(
+                "http://localhost:5000/api/students"
+            );
+
+            setTotalStudents(response.data.length);
+
+        } catch (error) {
+
+            console.log("Student count error:", error);
+
+        }
+
+    };
 
     if (page === "add") {
         return <Student page="add" setPage={setPage} />;
@@ -22,20 +49,36 @@ function Dashboard({ logout }) {
 
                 <p>Manage your students from here</p>
 
+                <div className="dashboard-count">
+
+                    <h2>{totalStudents}</h2>
+
+                    <span>Total Students</span>
+
+                </div>
+
                 <div className="dashboard-buttons">
 
                     <button
-                        className="main-button"
+                        className="dashboard-button add-student"
                         onClick={() => setPage("add")}
                     >
-                        Add Student
+                        <span className="button-icon">+</span>
+
+                        <strong>Add Student</strong>
+
+                        <small>Add a new student</small>
                     </button>
 
                     <button
-                        className="main-button"
+                        className="dashboard-button view-student"
                         onClick={() => setPage("students")}
                     >
-                        View Students
+                        <span className="button-icon">👥</span>
+
+                        <strong>View Students</strong>
+
+                        <small>View all students</small>
                     </button>
 
                 </div>

@@ -8,6 +8,11 @@ body {
     font-family: Arial, sans-serif;
 }
 
+
+/* ============================= */
+/* LOGIN / SIGNUP */
+/* ============================= */
+
 .main-container {
     min-height: 100vh;
     display: flex;
@@ -42,6 +47,11 @@ body {
     font-size: 14px;
 }
 
+
+/* ============================= */
+/* COMMON INPUT */
+/* ============================= */
+
 .input-group {
     margin-bottom: 20px;
 }
@@ -73,6 +83,11 @@ body {
     color: #aaa;
 }
 
+
+/* ============================= */
+/* MAIN BUTTON */
+/* ============================= */
+
 .main-button {
     width: 100%;
     border: none;
@@ -89,6 +104,11 @@ body {
 .main-button:hover {
     background: #4338ca;
 }
+
+
+/* ============================= */
+/* SWITCH LOGIN / SIGNUP */
+/* ============================= */
 
 .switch-page {
     text-align: center;
@@ -113,16 +133,7 @@ body {
     text-decoration: underline;
 }
 
-@media (max-width: 480px) {
 
-    .auth-card {
-        padding: 30px 22px;
-    }
-
-    .auth-header h1 {
-        font-size: 26px;
-    }
-}
 /* ============================= */
 /* STUDENT PAGE */
 /* ============================= */
@@ -142,11 +153,6 @@ body {
     border-radius: 16px;
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
 }
-
-
-/* ============================= */
-/* ADD STUDENT HEADING */
-/* ============================= */
 
 .student-card h1 {
     text-align: left;
@@ -172,9 +178,6 @@ body {
     margin: 0;
 }
 
-
-/* 2 COLUMNS */
-
 .student-form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -182,16 +185,10 @@ body {
     width: 100%;
 }
 
-
-/* INPUT GROUP */
-
 .student-form-row .input-group {
     width: 100%;
     margin-bottom: 20px;
 }
-
-
-/* LABEL LEFT */
 
 .student-form-row .input-group label {
     display: block;
@@ -202,45 +199,33 @@ body {
     margin-bottom: 8px;
 }
 
-
-/* INPUT */
-
 .student-form-row .input-group input {
     width: 100%;
     height: 48px;
     padding: 12px 15px;
-
     border: 2px solid #cbd5e1;
     border-radius: 8px;
-
     background: #ffffff;
     color: #222;
-
     font-size: 15px;
     outline: none;
-
     transition: 0.2s;
 }
-
-
-/* PLACEHOLDER */
 
 .student-form-row .input-group input::placeholder {
     color: #9ca3af;
     opacity: 1;
 }
 
-
-/* INPUT FOCUS */
-
 .student-form-row .input-group input:focus {
     border-color: #4f46e5;
-
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
 }
 
 
+/* ============================= */
 /* FILE INPUT */
+/* ============================= */
 
 .student-form-row .input-group input[type="file"] {
     height: 48px;
@@ -251,7 +236,7 @@ body {
 
 
 /* ============================= */
-/* ADD STUDENT BUTTON */
+/* ADD / UPDATE STUDENT BUTTON */
 /* ============================= */
 
 .student-card form > .main-button {
@@ -266,17 +251,21 @@ body {
 /* ============================= */
 
 .student-list {
-    width: 100%;
-    margin-top: 50px;
-    padding-top: 35px;
+    margin-top: 35px;
     border-top: 1px solid #e5e7eb;
+    padding-top: 30px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
 }
 
 .student-list h2 {
+    grid-column: 1 / -1;
     text-align: left;
-    font-size: 25px;
+    font-size: 24px;
     color: #222;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
 }
 
 
@@ -285,82 +274,125 @@ body {
 /* ============================= */
 
 .student-box {
-    display: inline-block;
-    vertical-align: top;
-
-    width: calc(33.33% - 22px);
-
-    margin: 10px;
-    padding: 22px;
-
+    width: 100%;
+    margin: 0;
+    padding: 25px;
     background: white;
-
     border: 1px solid #e5e7eb;
-    border-radius: 12px;
-
+    border-radius: 14px;
     text-align: left;
-
     box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
-
     transition: 0.2s;
 }
 
 .student-box:hover {
     transform: translateY(-4px);
-
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
 }
 
 
+/* ============================= */
 /* STUDENT IMAGE */
+/* ============================= */
 
 .student-box img {
     display: block;
-
-    width: 150px;
-    height: 150px;
-
+    width: 120px;
+    height: 120px;
     object-fit: cover;
-
     border-radius: 50%;
-
     border: 4px solid #eef2ff;
-
-    margin: 0 auto 15px;
+    margin: 0 auto 18px;
 }
 
 
+/* ============================= */
 /* STUDENT NAME */
+/* ============================= */
 
 .student-box h3 {
     text-align: left;
-
     font-size: 20px;
     color: #222;
-
     margin-bottom: 12px;
 }
 
 
+/* ============================= */
 /* STUDENT DETAILS */
+/* ============================= */
 
 .student-box p {
     text-align: left;
-
     color: #666;
     font-size: 14px;
-
     margin-bottom: 7px;
-
     word-break: break-word;
 }
 
 
-/* VIEW BUTTON */
+/* ============================= */
+/* STUDENT BUTTONS */
+/* ============================= */
 
-.student-box .main-button {
-    width: 100%;
-    margin-top: 12px;
+.student-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.student-buttons button {
+    flex: 1;
+    height: 40px;
+    padding: 0 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+
+/* ============================= */
+/* VIEW BUTTON */
+/* ============================= */
+
+.student-buttons .main-button {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.student-buttons .main-button:hover {
+    background: #c7d2fe;
+}
+
+
+/* ============================= */
+/* EDIT BUTTON */
+/* ============================= */
+
+.student-buttons .edit-button {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.student-buttons .edit-button:hover {
+    background: #fde68a;
+}
+
+
+/* ============================= */
+/* DELETE BUTTON */
+/* ============================= */
+
+.student-buttons .delete-button {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.student-buttons .delete-button:hover {
+    background: #fecaca;
 }
 
 
@@ -370,156 +402,34 @@ body {
 
 .student-card > img {
     display: block;
-
     width: 200px;
     height: 200px;
-
     object-fit: cover;
-
     border-radius: 50%;
-
     margin: 25px auto;
-
     border: 5px solid #eef2ff;
 }
 
 .student-card h2 {
     text-align: center;
-
     color: #222;
-
     font-size: 27px;
-
     margin-bottom: 20px;
 }
 
 .student-card > p {
     max-width: 550px;
-
     margin: 10px auto;
-
     padding: 12px 15px;
-
     background: #f8fafc;
-
     border-radius: 8px;
-
     color: #555;
 }
 
 
+/* ============================= */
 /* BACK BUTTON */
-
-.student-card > .main-button {
-    display: block;
-
-    max-width: 200px;
-
-    margin: 25px auto 0;
-}
-
-
 /* ============================= */
-/* RESPONSIVE */
-/* ============================= */
-
-@media (max-width: 900px) {
-
-    .student-box {
-        width: calc(50% - 22px);
-    }
-
-}
-
-
-@media (max-width: 700px) {
-
-    .student-form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    .student-card form > .main-button {
-        width: 100%;
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    .student-container {
-        padding: 20px 10px;
-    }
-
-    .student-card {
-        padding: 25px 18px;
-    }
-
-    .student-card h1 {
-        font-size: 26px;
-    }
-
-    .student-box {
-        width: 100%;
-        margin: 10px 0;
-    }
-
-}
-
-/* DASHBOARD */
-
-.dashboard-container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f4f6f8;
-    padding: 20px;
-}
-
-.dashboard-card {
-    width: 100%;
-    max-width: 700px;
-    background: white;
-    padding: 45px;
-    border-radius: 16px;
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
-    text-align: center;
-}
-
-.dashboard-card h1 {
-    font-size: 32px;
-    color: #222;
-    margin-bottom: 10px;
-}
-
-.dashboard-card p {
-    color: #777;
-    margin-bottom: 35px;
-}
-
-.dashboard-buttons {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-}
-
-.dashboard-buttons .main-button {
-    width: 200px;
-}
-
-@media (max-width: 600px) {
-
-    .dashboard-buttons {
-        flex-direction: column;
-    }
-
-    .dashboard-buttons .main-button {
-        width: 100%;
-    }
-
-}
 
 .back-button {
     border: none;
@@ -535,44 +445,134 @@ body {
     text-decoration: underline;
 }
 
-.student-buttons {
+
+/* ============================= */
+/* DASHBOARD */
+/* ============================= */
+
+.dashboard-container {
+    min-height: 100vh;
     display: flex;
-    gap: 8px;
-    margin-top: 15px;
+    justify-content: center;
+    align-items: center;
+    background: #f4f6f8;
+    padding: 30px 20px;
 }
 
-.student-buttons .main-button,
-.student-buttons .edit-button,
-.student-buttons .delete-button {
-    flex: 1;
-    padding: 10px;
+.dashboard-card {
+    width: 100%;
+    max-width: 850px;
+    background: white;
+    padding: 45px;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.dashboard-card h1 {
+    font-size: 32px;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.dashboard-card > p {
+    color: #777;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+
+/* ============================= */
+/* TOTAL STUDENTS */
+/* ============================= */
+
+.dashboard-count {
+    width: 220px;
+    margin: 0 auto 35px;
+    padding: 22px;
+    background: #f5f3ff;
+    border-radius: 14px;
+}
+
+.dashboard-count h2 {
+    font-size: 36px;
+    color: #4f46e5;
+    margin-bottom: 5px;
+}
+
+.dashboard-count span {
+    color: #666;
+    font-size: 14px;
+}
+
+
+/* ============================= */
+/* DASHBOARD BUTTONS */
+/* ============================= */
+
+.dashboard-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.dashboard-button {
     border: none;
-    border-radius: 7px;
+    padding: 28px 20px;
+    border-radius: 14px;
     cursor: pointer;
-    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.2s;
 }
 
-.edit-button {
-    background: #f59e0b;
-    color: white;
+.dashboard-button:hover {
+    transform: translateY(-4px);
 }
 
-.delete-button {
-    background: #dc2626;
-    color: white;
+.dashboard-button .button-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
 }
 
-.edit-button:hover {
-    background: #d97706;
+.dashboard-button strong {
+    font-size: 18px;
+    margin-bottom: 7px;
 }
 
-.delete-button:hover {
-    background: #b91c1c;
+.dashboard-button small {
+    font-size: 13px;
 }
+
+
+/* ============================= */
+/* ADD STUDENT */
+/* ============================= */
+
+.add-student {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+
+/* ============================= */
+/* VIEW STUDENTS */
+/* ============================= */
+
+.view-student {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+
+/* ============================= */
+/* LOGOUT */
+/* ============================= */
 
 .logout-button {
-    margin-top: 25px;
-    padding: 12px 30px;
+    margin-top: 30px;
+    padding: 12px 35px;
     border: none;
     border-radius: 8px;
     background: #dc2626;
@@ -584,4 +584,82 @@ body {
 
 .logout-button:hover {
     background: #b91c1c;
+}
+
+
+/* ============================= */
+/* TABLET */
+/* ============================= */
+
+@media (max-width: 900px) {
+
+    .student-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
+@media (max-width: 700px) {
+
+    .student-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .student-card form > .main-button {
+        width: 100%;
+    }
+
+}
+
+
+/* ============================= */
+/* SMALL MOBILE */
+/* ============================= */
+
+@media (max-width: 600px) {
+
+    .student-container {
+        padding: 20px 10px;
+    }
+
+    .student-card {
+        padding: 25px 18px;
+    }
+
+    .student-card h1 {
+        font-size: 26px;
+    }
+
+    .student-list {
+        grid-template-columns: 1fr;
+    }
+
+    .student-buttons {
+        gap: 8px;
+    }
+
+    .student-buttons button {
+        height: 40px;
+        font-size: 12px;
+        padding: 0 5px;
+    }
+
+    .dashboard-card {
+        padding: 30px 20px;
+    }
+
+    .dashboard-card h1 {
+        font-size: 27px;
+    }
+
+    .dashboard-buttons {
+        grid-template-columns: 1fr;
+    }
+
 }
