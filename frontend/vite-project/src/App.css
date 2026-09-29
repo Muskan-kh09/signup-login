@@ -788,3 +788,117 @@ body {
 .attendance-delete-button:hover {
     background: #fecaca;
 }
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.dashboard-stats .dashboard-count {
+    margin: 0;
+    padding: 25px 15px;
+    border-radius: 14px;
+    background: #eef2ff;
+    border: 1px solid #e0e7ff;
+}
+
+.dashboard-stats .dashboard-count h2 {
+    margin: 0 0 8px;
+    font-size: 32px;
+    color: #4338ca;
+}
+
+.dashboard-stats .dashboard-count span {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.dashboard-stats .present-count {
+    background: #ecfdf5;
+    border-color: #d1fae5;
+}
+
+.dashboard-stats .present-count h2 {
+    color: #15803d;
+}
+
+.dashboard-stats .absent-count {
+    background: #fef2f2;
+    border-color: #fee2e2;
+}
+
+.dashboard-stats .absent-count h2 {
+    color: #b91c1c;
+}
+
+@media (max-width: 768px) {
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+.student-attendance-result {
+    margin-top: 25px;
+    padding: 25px;
+    background: #f8fafc;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+}
+
+.student-attendance-result h3 {
+    color: #312e81;
+    margin-bottom: 20px;
+}
+
+
+.attendance-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+
+.attendance-stats div {
+    padding: 20px 10px;
+    background: white;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+}
+
+
+.attendance-stats strong {
+    display: block;
+    font-size: 26px;
+    color: #4338ca;
+    margin-bottom: 6px;
+}
+
+
+.attendance-stats span {
+    font-size: 13px;
+    color: #64748b;
+}
+
+
+@media (max-width: 768px) {
+
+    .attendance-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .attendance-stats {
+        grid-template-columns: 1fr;
+    }
+
+}

@@ -190,4 +190,102 @@ router.get("/attendance/summary", async (req, res) => {
     }
 });
 
+// Today's Attendance Stats
+router.get("/attendance/today", async (req, res) => {
+
+    try {
+
+        const today = new Date().toISOString().split("T")[0];
+
+        const attendance = await Attendance.find({
+            date: today
+        });
+
+        let present = 0;
+        let absent = 0;
+
+        attendance.forEach((record) => {
+
+            if (record.status === "Present") {
+                present++;
+            }
+
+            if (record.status === "Absent") {
+                absent++;
+            }
+
+        });
+
+        res.status(200).json({
+            date: today,
+            present: present,
+            absent: absent
+        });
+
+    } catch (error) {
+
+        console.log("Today attendance error:", error);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+
+    }
+
+});
+
+// Student Wise Attendance
+router.get("/attendance/student/:studentId", async (req, res) => {
+
+    try {
+
+        const attendance = await Attendance.find({
+            studentId: req.params.studentId
+        }).populate("studentId");
+
+        let total = attendance.length;
+        let present = 0;
+        let absent = 0;
+
+        attendance.forEach((record) => {
+
+            if (record.status === "Present") {
+                present++;
+            }
+
+            if (record.status === "Absent") {
+                absent++;
+            }
+
+        });
+
+        let percentage = 0;
+
+        if (total > 0) {
+            percentage = (present / total) * 100;
+        }
+
+        res.status(200).json({
+            student: attendance.length > 0
+                ? attendance[0].studentId
+                : null,
+            total: total,
+            present: present,
+            absent: absent,
+            percentage: percentage,
+            records: attendance
+        });
+
+    } catch (error) {
+
+        console.log("Student attendance error:", error);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+
+    }
+
+});
+
 module.exports = router;

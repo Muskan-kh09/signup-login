@@ -7,6 +7,11 @@ function Attendance({ setPage }) {
     const [attendance, setAttendance] = useState([]);
     const [summary, setSummary] = useState([]);
 
+    const [selectedStudent, setSelectedStudent] = useState("");
+    const [studentAttendance, setStudentAttendance] = useState(null);
+    const [studentRecords, setStudentRecords] = useState([]);
+    const [showStudentAttendance, setShowStudentAttendance] = useState(false);
+
     const [studentId, setStudentId] = useState("");
     const [date, setDate] = useState("");
     const [status, setStatus] = useState("Present");
@@ -18,54 +23,63 @@ function Attendance({ setPage }) {
 
         getStudents();
         getAttendance();
+        getSummary();
 
     }, []);
 
 
     const getStudents = async () => {
-
         try {
-
             const response = await axios.get(
                 "http://localhost:5000/api/students"
             );
-
             setStudents(response.data);
-
         } catch (error) {
-
             console.log("Get students error:", error);
-
         }
-
     };
 
 
     const getAttendance = async () => {
-
         try {
-
             const response = await axios.get(
                 "http://localhost:5000/api/attendance"
             );
-
             setAttendance(response.data);
-
         } catch (error) {
-
             console.log("Get attendance error:", error);
-
         }
+    };
 
+
+    const getSummary = async () => {
+        try {
+            const response = await axios.get(
+                "http://localhost:5000/api/attendance/summary"
+            );
+            setSummary(response.data);
+        } catch (error) {
+            console.log("Get summary error:", error);
+        }
+    };
+
+    const getStudentAttendance = async (id) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:5000/api/attendance/student/${id}`
+            );
+            setStudentAttendance(response.data);
+            setStudentRecords(response.data.records);
+            setShowStudentAttendance(true);
+        } catch (error) {
+            console.log("Student attendance error:", error);
+        }
     };
 
 
     const handleAttendance = async (e) => {
-
         e.preventDefault();
-
         try {
-
             const response = await axios.post(
                 "http://localhost:5000/api/attendance",
                 {
@@ -82,6 +96,7 @@ function Attendance({ setPage }) {
             setStatus("Present");
 
             getAttendance();
+            getSummary();
 
         } catch (error) {
 
@@ -129,6 +144,7 @@ function Attendance({ setPage }) {
             setStatus("Present");
 
             getAttendance();
+            getSummary();
 
         } catch (error) {
 
@@ -163,6 +179,7 @@ function Attendance({ setPage }) {
             alert(response.data.message);
 
             getAttendance();
+            getSummary();
 
         } catch (error) {
 
@@ -295,6 +312,254 @@ function Attendance({ setPage }) {
 
                 </form>
 
+                {/* STUDENT WISE ATTENDANCE */}
+
+                <div className="attendance-section">
+
+                    <h2>Student Wise Attendance</h2>
+
+                    <div className="input-group">
+
+                        <label>Select Student</label>
+
+                        <select
+                            value={selectedStudent}
+                            onChange={(e) => {
+                                setSelectedStudent(e.target.value);
+
+                                if (e.target.value) {
+                                    getStudentAttendance(e.target.value);
+                                } else {
+                                    setStudentAttendance(null);
+                                    setStudentRecords([]);
+                                    setShowStudentAttendance(false);
+                                }
+                            }}
+                        >
+
+                            <option value="">
+                                Select Student
+                            </option>
+
+                            {students.map((student) => (
+
+                                <option
+                                    key={student._id}
+                                    value={student._id}
+                                >
+                                    {student.name}
+                                </option>
+
+                            ))}
+
+                        </select>
+
+                    </div>
+
+
+                    {showStudentAttendance && studentAttendance && (
+
+                        <div className="student-attendance-result">
+
+                            <h3>
+                                {studentAttendance.student?.name}
+                            </h3>
+
+                            <div className="attendance-stats">
+
+                                <div>
+                                    <strong>
+                                        {studentAttendance.total}
+                                    </strong>
+
+                                    <span>
+                                        Total
+                                    </span>
+                                </div>
+
+
+                                <div>
+                                    <strong>
+                                        {studentAttendance.present}
+                                    </strong>
+
+                                    <span>
+                                        Present
+                                    </span>
+                                </div>
+
+
+                                <div>
+                                    <strong>
+                                        {studentAttendance.absent}
+                                    </strong>
+
+                                    <span>
+                                        Absent
+                                    </span>
+                                </div>
+
+
+                                <div>
+                                    <strong>
+                                        {studentAttendance.percentage.toFixed(2)}%
+                                    </strong>
+
+                                    <span>
+                                        Percentage
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <h3>Attendance Records</h3>
+
+                            {studentRecords.length === 0 ? (
+
+                                <p>
+                                    No attendance records found.
+                                </p>
+
+                            ) : (
+
+                                <div className="attendance-table-container">
+
+                                    <table className="attendance-table">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th>Date</th>
+
+                                                <th>Status</th>
+
+                                            </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                            {studentRecords.map((record) => (
+
+                                                <tr key={record._id}>
+
+                                                    <td>
+                                                        {record.date}
+                                                    </td>
+
+                                                    <td>
+
+                                                        <span
+                                                            className={
+                                                                record.status === "Present"
+                                                                    ? "present-status"
+                                                                    : "absent-status"
+                                                            }
+                                                        >
+                                                            {record.status}
+                                                        </span>
+
+                                                    </td>
+
+                                                </tr>
+
+                                            ))}
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            )}
+
+                        </div>
+
+                    )}
+
+                </div>
+
+
+                {/* ATTENDANCE SUMMARY */}
+
+                <div className="attendance-section">
+
+                    <h2>Attendance Summary</h2>
+
+                    {summary.length === 0 ? (
+
+                        <p>
+                            No attendance summary found.
+                        </p>
+
+                    ) : (
+
+                        <div className="attendance-table-container">
+
+                            <table className="attendance-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>Student</th>
+
+                                        <th>Total</th>
+
+                                        <th>Present</th>
+
+                                        <th>Absent</th>
+
+                                        <th>Percentage</th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                    {summary.map((student) => (
+
+                                        <tr key={student.studentId}>
+
+                                            <td>
+                                                {student.name}
+                                            </td>
+
+                                            <td>
+                                                {student.total}
+                                            </td>
+
+                                            <td>
+                                                {student.present}
+                                            </td>
+
+                                            <td>
+                                                {student.absent}
+                                            </td>
+
+                                            <td>
+                                                {student.percentage.toFixed(2)}%
+                                            </td>
+
+                                        </tr>
+
+                                    ))}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    )}
+
+                </div>
+
 
                 {/* ATTENDANCE RECORDS */}
 
@@ -371,6 +636,7 @@ function Attendance({ setPage }) {
                                                     >
                                                         Edit
                                                     </button>
+
 
                                                     <button
                                                         className="attendance-delete-button"

@@ -8,29 +8,35 @@ function Dashboard({ logout }) {
     const [page, setPage] = useState("dashboard");
 
     const [totalStudents, setTotalStudents] = useState(0);
+    const [presentToday, setPresentToday] = useState(0);
+    const [absentToday, setAbsentToday] = useState(0);
 
     useEffect(() => {
-
-        getStudentCount();
-
+    getStudentCount();
+    getTodayAttendance();
     }, [page]);
        
     const getStudentCount = async () => {
-
         try {
-
             const response = await axios.get(
                 "http://localhost:5000/api/students"
             );
-
             setTotalStudents(response.data.length);
-
         } catch (error) {
-
             console.log("Student count error:", error);
-
         }
+    };
 
+    const getTodayAttendance = async () => {
+        try {
+            const response = await axios.get(
+                "http://localhost:5000/api/attendance/today"
+            );
+            setPresentToday(response.data.present);
+            setAbsentToday(response.data.absent);
+        } catch (error) {
+            console.log("Today attendance error:", error);
+        }
     };
 
     if (page === "add") {
@@ -54,12 +60,19 @@ function Dashboard({ logout }) {
 
                 <p>Manage your students from here</p>
 
-                <div className="dashboard-count">
-
-                    <h2>{totalStudents}</h2>
-
-                    <span>Total Students</span>
-
+                <div className="dashboard-stats">
+                    <div className="dashboard-count">
+                        <h2>{totalStudents}</h2>
+                        <span>Total Students</span>
+                    </div>
+                    <div className="dashboard-count present-count">
+                        <h2>{presentToday}</h2>
+                        <span>Present Today</span>
+                    </div>
+                    <div className="dashboard-count absent-count">
+                        <h2>{absentToday}</h2>
+                        <span>Absent Today</span>
+                    </div>
                 </div>
 
                 <div className="dashboard-buttons">
