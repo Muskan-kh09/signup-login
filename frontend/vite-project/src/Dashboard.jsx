@@ -10,10 +10,12 @@ function Dashboard({ logout }) {
     const [totalStudents, setTotalStudents] = useState(0);
     const [presentToday, setPresentToday] = useState(0);
     const [absentToday, setAbsentToday] = useState(0);
+    const [overallAttendance, setOverallAttendance] = useState(0);
 
     useEffect(() => {
     getStudentCount();
     getTodayAttendance();
+    getOverallAttendance();
     }, [page]);
        
     const getStudentCount = async () => {
@@ -36,6 +38,20 @@ function Dashboard({ logout }) {
             setAbsentToday(response.data.absent);
         } catch (error) {
             console.log("Today attendance error:", error);
+        }
+    };
+
+    const getOverallAttendance = async () => {
+        try {
+            const response = await axios.get(
+                "http://localhost:5000/api/attendance/overall"
+            );
+            setOverallAttendance(response.data.percentage);
+        } catch (error) {
+            console.log(
+                "Overall attendance error:",
+                error
+            );
         }
     };
 
@@ -72,6 +88,14 @@ function Dashboard({ logout }) {
                     <div className="dashboard-count absent-count">
                         <h2>{absentToday}</h2>
                         <span>Absent Today</span>
+                    </div>
+                    <div className="dashboard-count overall-count">
+                        <h2>
+                            {overallAttendance.toFixed(2)}%
+                        </h2>
+                        <span>
+                            Overall Attendance
+                        </span>
                     </div>
                 </div>
 

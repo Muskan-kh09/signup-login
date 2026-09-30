@@ -15,6 +15,11 @@ function Student({ page, setPage }) {
     const [selectedStudent, setSelectedStudent] = useState(null);
     const [editStudent, setEditStudent] = useState(null);
 
+    const [search, setSearch] = useState("");
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const studentsPerPage = 6;
+
     useEffect(() => {
 
         getStudents();
@@ -35,7 +40,7 @@ function Student({ page, setPage }) {
 
             console.log("Get students error:", error);
 
-        }
+        } 
 
     };
 
@@ -43,7 +48,7 @@ function Student({ page, setPage }) {
 
         e.preventDefault();
 
-        try {
+        try { 
 
             const formData = new FormData();
 
@@ -51,7 +56,7 @@ function Student({ page, setPage }) {
             formData.append("email", email);
             formData.append("phone", phone);
             formData.append("course", course);
-            formData.append("city", city);
+            formData.append("city", city); 
             formData.append("image", image);
 
             const response = await axios.post(
@@ -84,6 +89,7 @@ function Student({ page, setPage }) {
     };
 
     const handleEdit = (student) => {
+
         setEditStudent(student);
         setName(student.name);
         setEmail(student.email);
@@ -91,25 +97,34 @@ function Student({ page, setPage }) {
         setCourse(student.course);
         setCity(student.city);
         setImage("");
+
     };
 
     const handleUpdate = async (e) => {
+
         e.preventDefault();
+
         try {
+
             const formData = new FormData();
+
             formData.append("name", name);
             formData.append("email", email);
             formData.append("phone", phone);
             formData.append("course", course);
             formData.append("city", city);
+
             if (image) {
                 formData.append("image", image);
             }
+
             const response = await axios.put(
                 `http://localhost:5000/api/students/${editStudent._id}`,
                 formData
             );
+
             alert(response.data.message);
+
             setEditStudent(null);
             setName("");
             setEmail("");
@@ -117,14 +132,20 @@ function Student({ page, setPage }) {
             setCourse("");
             setCity("");
             setImage("");
+
             getStudents();
+
         } catch (error) {
+
             console.log("Update error:", error);
+
             alert(
                 error.response?.data?.message ||
                 "Student update failed"
             );
+
         }
+
     };
 
     const handleDelete = async (id) => {
@@ -159,6 +180,27 @@ function Student({ page, setPage }) {
         }
 
     };
+
+    // SEARCH STUDENTS
+
+    const filteredStudents = students.filter((student) => {
+
+        return (
+            student.name.toLowerCase().includes(search.toLowerCase()) ||
+            student.email.toLowerCase().includes(search.toLowerCase()) ||
+            student.course.toLowerCase().includes(search.toLowerCase())
+        );
+    });
+    const indexOfLastStudent = currentPage * studentsPerPage;
+    const indexOfFirstStudent =
+        indexOfLastStudent - studentsPerPage;
+    const currentStudents = filteredStudents.slice(
+        indexOfFirstStudent,
+        indexOfLastStudent
+    );
+    const totalPages = Math.ceil(
+        filteredStudents.length / studentsPerPage
+    );
 
     // STUDENT DETAILS
 
@@ -233,14 +275,23 @@ function Student({ page, setPage }) {
                         ← Dashboard
                     </button>
 
-                    <h1>{editStudent ? "Edit Student" : "Add Student"}</h1>
+                    <h1>
+                        {editStudent ? "Edit Student" : "Add Student"}
+                    </h1>
+
                     <p>
                         {editStudent
                             ? "Update student details below"
                             : "Enter student details below"}
                     </p>
 
-                    <form onSubmit={editStudent ? handleUpdate : handleStudent}>
+                    <form
+                        onSubmit={
+                            editStudent
+                                ? handleUpdate
+                                : handleStudent
+                        }
+                    >
 
                         <div className="student-form-row">
 
@@ -251,7 +302,9 @@ function Student({ page, setPage }) {
                                 <input
                                     type="text"
                                     value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={(e) =>
+                                        setName(e.target.value)
+                                    }
                                     placeholder="Enter student name"
                                     required
                                 />
@@ -265,7 +318,9 @@ function Student({ page, setPage }) {
                                 <input
                                     type="email"
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) =>
+                                        setEmail(e.target.value)
+                                    }
                                     placeholder="Enter student email"
                                     required
                                 />
@@ -283,7 +338,9 @@ function Student({ page, setPage }) {
                                 <input
                                     type="text"
                                     value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
+                                    onChange={(e) =>
+                                        setPhone(e.target.value)
+                                    }
                                     placeholder="Enter phone number"
                                     required
                                 />
@@ -297,7 +354,9 @@ function Student({ page, setPage }) {
                                 <input
                                     type="text"
                                     value={course}
-                                    onChange={(e) => setCourse(e.target.value)}
+                                    onChange={(e) =>
+                                        setCourse(e.target.value)
+                                    }
                                     placeholder="Enter course"
                                     required
                                 />
@@ -307,24 +366,36 @@ function Student({ page, setPage }) {
                         </div>
 
                         <div className="student-form-row">
+
                             <div className="input-group">
+
                                 <label>City</label>
+
                                 <input
                                     type="text"
                                     value={city}
-                                    onChange={(e) => setCity(e.target.value)}
+                                    onChange={(e) =>
+                                        setCity(e.target.value)
+                                    }
                                     placeholder="Enter city"
                                     required
                                 />
+
                             </div>
+
                             <div className="input-group">
+
                                 <label>Student Image</label>
+
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    onChange={(e) => setImage(e.target.files[0])}
+                                    onChange={(e) =>
+                                        setImage(e.target.files[0])
+                                    }
                                     required={!editStudent}
                                 />
+
                             </div>
 
                         </div>
@@ -333,7 +404,9 @@ function Student({ page, setPage }) {
                             type="submit"
                             className="main-button"
                         >
-                            {editStudent ? "Update Student" : "Add Student"}
+                            {editStudent
+                                ? "Update Student"
+                                : "Add Student"}
                         </button>
 
                     </form>
@@ -365,71 +438,96 @@ function Student({ page, setPage }) {
                     View and manage all students
                 </p>
 
+                {/* SEARCH BOX */}
+
+                <div className="student-search">
+
+                    <input
+                        type="text"
+                        placeholder="Search by name, email or course..."
+                        value={search}
+                        onChange={(e) =>
+                            setSearch(e.target.value)
+                        }
+                    />
+
+                </div>
+
                 <div className="student-list">
-
-                    {students.length === 0 ? (
-
-                        <p>No students found.</p>
-
+                    {currentStudents.length === 0 ? (
+                        <p>
+                            {search
+                                ? "No students found for your search."
+                                : "No students found."}
+                        </p>
                     ) : (
-
-                        students.map((student) => (
-
+                        currentStudents.map((student) => (
                             <div
                                 className="student-box"
                                 key={student._id}
                             >
-
                                 <img
                                     src={`http://localhost:5000/uploads/${student.image}`}
                                     alt={student.name}
                                 />
-
                                 <h3>{student.name}</h3>
-
                                 <p>
                                     Email: {student.email}
                                 </p>
-
                                 <p>
                                     Course: {student.course}
                                 </p>
-
                                 <div className="student-buttons">
-
                                     <button
                                         className="main-button"
-                                        onClick={() => setSelectedStudent(student)}
+                                        onClick={() =>
+                                            setSelectedStudent(student)
+                                        }
                                     >
                                         View
                                     </button>
-
                                     <button
                                         className="edit-button"
-                                        onClick={() => handleEdit(student)}
+                                        onClick={() =>
+                                            handleEdit(student)
+                                        }
                                     >
                                         Edit
                                     </button>
-
                                     <button
                                         className="delete-button"
-                                        onClick={() => handleDelete(student._id)}
+                                        onClick={() =>
+                                            handleDelete(student._id)
+                                        }
                                     >
                                         Delete
                                     </button>
-
                                 </div>
-
                             </div>
-
                         ))
-
                     )}
-
                 </div>
 
+                {totalPages > 1 && (
+                    <div className="pagination">
+                        <button
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        >
+                            ← Previous
+                        </button>
+                        <span>
+                            Page {currentPage} of {totalPages}
+                        </span>
+                        <button
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next →
+                        </button>
+                    </div>
+                )}
             </div>
-
         </div>
     );
 }

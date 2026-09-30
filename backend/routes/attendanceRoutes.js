@@ -234,14 +234,10 @@ router.get("/attendance/today", async (req, res) => {
 
 });
 
-// Student Wise Attendance
-router.get("/attendance/student/:studentId", async (req, res) => {
-
+// Overall Attendance
+router.get("/attendance/overall", async (req, res) => {
     try {
-
-        const attendance = await Attendance.find({
-            studentId: req.params.studentId
-        }).populate("studentId");
+        const attendance = await Attendance.find();
 
         let total = attendance.length;
         let present = 0;
@@ -266,19 +262,98 @@ router.get("/attendance/student/:studentId", async (req, res) => {
         }
 
         res.status(200).json({
-            student: attendance.length > 0
-                ? attendance[0].studentId
-                : null,
             total: total,
             present: present,
             absent: absent,
-            percentage: percentage,
-            records: attendance
+            percentage: percentage
         });
 
     } catch (error) {
 
-        console.log("Student attendance error:", error);
+        console.log(
+            "Overall attendance error:",
+            error
+        );
+
+        res.status(500).json({
+            message: "Server error"
+        });
+
+    }
+});
+
+
+// Student Wise Attendance With Date Range
+router.get(
+    "/attendance/student/:studentId/:fromDate/:toDate",
+    async (req, res) => {
+        try {
+            const attendance = await Attendance.find({
+                studentId: req.params.studentId,
+                date: {
+                    $gte: req.params.fromDate,
+                    $lte: req.params.toDate
+                }
+            }).populate("studentId");
+
+            let total = attendance.length;
+            let present = 0;
+            let absent = 0;
+
+            attendance.forEach((record) => {
+                if (record.status === "Present") {
+                    present++;
+                }
+
+                if (record.status === "Absent") {
+                    absent++;
+                }
+            });
+
+            let percentage = 0;
+
+            if (total > 0) {
+                percentage = (present / total) * 100;
+            }
+
+            res.status(200).json({
+                student:
+                    attendance.length > 0
+                        ? attendance[0].studentId
+                        : null,
+                total: total,
+                present: present,
+                absent: absent,
+                percentage: percentage,
+                records: attendance
+            });
+        } catch (error) {
+            console.log(
+                "Student date range attendance error:",
+                error
+            );
+
+            res.status(500).json({
+                message: "Server error"
+            });
+        }
+    }
+);
+
+// Date Wise Attendance
+router.get("/attendance/date/:date", async (req, res) => {
+
+    try {
+
+        const attendance = await Attendance.find({
+            date: req.params.date
+        }).populate("studentId");
+
+        res.status(200).json(attendance);
+
+    } catch (error) {
+
+        console.log("Date attendance error:", error);
 
         res.status(500).json({
             message: "Server error"
