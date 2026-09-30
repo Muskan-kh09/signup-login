@@ -105,33 +105,24 @@ router.put("/attendance/:id", async (req, res) => {
 // Delete All Attendance
 
 router.delete("/attendance/:id", async (req, res) => {
-
     try {
-
         const attendance = await Attendance.findByIdAndDelete(
             req.params.id
         );
-
         if (!attendance) {
 
             return res.status(404).json({
                 message: "Attendance not found"
             });
-
         }
-
         res.status(200).json({
             message: "Attendance deleted successfully"
         });
-
     } catch (error) {
-
         console.log("Delete attendance error:", error);
-
         res.status(500).json({
             message: "Server error"
         });
-
     }
 
 });

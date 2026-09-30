@@ -47,7 +47,10 @@ function Student({ page, setPage }) {
     const handleStudent = async (e) => {
 
         e.preventDefault();
-
+        if (phone.length !== 10) {
+            alert("Phone number must be 10 digits");
+            return;
+        }
         try { 
 
             const formData = new FormData();
@@ -103,7 +106,10 @@ function Student({ page, setPage }) {
     const handleUpdate = async (e) => {
 
         e.preventDefault();
-
+        if (phone.length !== 10) {
+            alert("Phone number must be 10 digits");
+            return;
+        }
         try {
 
             const formData = new FormData();
@@ -330,11 +336,8 @@ function Student({ page, setPage }) {
                         </div>
 
                         <div className="student-form-row">
-
                             <div className="input-group">
-
                                 <label>Phone</label>
-
                                 <input
                                     type="text"
                                     value={phone}
@@ -344,13 +347,10 @@ function Student({ page, setPage }) {
                                     placeholder="Enter phone number"
                                     required
                                 />
-
                             </div>
 
                             <div className="input-group">
-
                                 <label>Course</label>
-
                                 <input
                                     type="text"
                                     value={course}
