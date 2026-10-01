@@ -17,6 +17,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
 // Add student
 router.post("/students", upload.single("image"), async (req, res) => {
 
@@ -25,6 +26,50 @@ router.post("/students", upload.single("image"), async (req, res) => {
     try {
 
         const { name, email, phone, course, city } = req.body;
+
+        // Phone validation
+        if (!/^\d{10}$/.test(phone)) {
+            return res.status(400).json({
+                message: "Phone number must be exactly 10 digits"
+            });
+        }
+
+        // Gmail validation
+        if (!/^[^\s@]+@gmail\.com$/.test(email)) {
+            return res.status(400).json({
+                message: "Please enter a valid Gmail address"
+            });
+        }
+
+        // Check duplicate phone or email
+        const existingStudent = await Student.findOne({
+            $or: [
+                { phone: phone },
+                { email: email }
+            ]
+        });
+
+        if (existingStudent) {
+
+            if (existingStudent.phone === phone) {
+                return res.status(400).json({
+                    message: "Phone number already registered"
+                });
+            }
+
+            if (existingStudent.email === email) {
+                return res.status(400).json({
+                    message: "Email already registered"
+                });
+            }
+        }
+
+        // Image check
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Please upload student image"
+            });
+        }
 
         const newStudent = new Student({
             name: name,
@@ -77,6 +122,8 @@ router.get("/students", async (req, res) => {
     }
 
 });
+
+
 // Edit student
 router.put("/students/:id", upload.single("image"), async (req, res) => {
 
@@ -90,6 +137,45 @@ router.put("/students/:id", upload.single("image"), async (req, res) => {
             return res.status(404).json({
                 message: "Student not found"
             });
+        }
+
+        // Phone validation
+        if (!/^\d{10}$/.test(phone)) {
+            return res.status(400).json({
+                message: "Phone number must be exactly 10 digits"
+            });
+        }
+
+        // Gmail validation
+        if (!/^[^\s@]+@gmail\.com$/.test(email)) {
+            return res.status(400).json({
+                message: "Please enter a valid Gmail address"
+            });
+        }
+
+        // Check duplicate phone or email
+        // Current student ko ignore karenge
+        const existingStudent = await Student.findOne({
+            $or: [
+                { phone: phone },
+                { email: email }
+            ],
+            _id: { $ne: req.params.id }
+        });
+
+        if (existingStudent) {
+
+            if (existingStudent.phone === phone) {
+                return res.status(400).json({
+                    message: "Phone number already registered"
+                });
+            }
+
+            if (existingStudent.email === email) {
+                return res.status(400).json({
+                    message: "Email already registered"
+                });
+            }
         }
 
         student.name = name;
@@ -166,5 +252,6 @@ router.delete("/students/:id", async (req, res) => {
     }
 
 });
+
 
 module.exports = router;

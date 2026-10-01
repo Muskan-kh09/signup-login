@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
+const courseRoutes = require("./routes/courseRoutes");
+const registrationRoutes = require("./routes/registrationRoutes");
+const feePaymentRoutes = require("./routes/feePaymentRoutes");
 
 const app = express();
 
@@ -27,6 +30,9 @@ mongoose.connect(process.env.MONGO_URI)
 app.use("/api", userRoutes);
 app.use("/api", studentRoutes);
 app.use("/api", attendanceRoutes);
+app.use("/api", courseRoutes);
+app.use("/api", registrationRoutes);
+app.use("/api", feePaymentRoutes);
 
 app.get("/", (req, res) => {
     res.send("Server is running");

@@ -40,18 +40,54 @@ function Student({ page, setPage }) {
 
             console.log("Get students error:", error);
 
-        } 
+        }
 
     };
 
     const handleStudent = async (e) => {
 
         e.preventDefault();
-        if (phone.length !== 10) {
-            alert("Phone number must be 10 digits");
+
+        // PHONE VALIDATION
+
+        if (phone.length < 10) {
+
+            alert(
+                "Your phone number is less than 10 digits. Please complete it."
+            );
+
             return;
         }
-        try { 
+
+        // EMAIL VALIDATION
+
+        const emailPattern = /^[^\s@]+@gmail\.com$/;
+
+        if (!emailPattern.test(email)) {
+
+            alert(
+                "Please enter a valid Gmail address like example@gmail.com"
+            );
+
+            return;
+        }
+
+        // DUPLICATE PHONE CHECK
+
+        const phoneExists = students.some(
+            (student) => student.phone === phone
+        );
+
+        if (phoneExists) {
+
+            alert(
+                "This phone number is already registered with another student."
+            );
+
+            return;
+        }
+
+        try {
 
             const formData = new FormData();
 
@@ -59,7 +95,7 @@ function Student({ page, setPage }) {
             formData.append("email", email);
             formData.append("phone", phone);
             formData.append("course", course);
-            formData.append("city", city); 
+            formData.append("city", city);
             formData.append("image", image);
 
             const response = await axios.post(
@@ -106,10 +142,49 @@ function Student({ page, setPage }) {
     const handleUpdate = async (e) => {
 
         e.preventDefault();
-        if (phone.length !== 10) {
-            alert("Phone number must be 10 digits");
+
+        // PHONE VALIDATION
+
+        if (phone.length < 10) {
+
+            alert(
+                "Your phone number is less than 10 digits. Please complete it."
+            );
+
             return;
         }
+
+        // EMAIL VALIDATION
+
+        const emailPattern = /^[^\s@]+@gmail\.com$/;
+
+        if (!emailPattern.test(email)) {
+
+            alert(
+                "Please enter a valid Gmail address like example@gmail.com"
+            );
+
+            return;
+        }
+
+        // DUPLICATE PHONE CHECK
+        // Current student ko ignore karega
+
+        const phoneExists = students.some(
+            (student) =>
+                student.phone === phone &&
+                student._id !== editStudent._id
+        );
+
+        if (phoneExists) {
+
+            alert(
+                "This phone number is already registered with another student."
+            );
+
+            return;
+        }
+
         try {
 
             const formData = new FormData();
@@ -196,17 +271,27 @@ function Student({ page, setPage }) {
             student.email.toLowerCase().includes(search.toLowerCase()) ||
             student.course.toLowerCase().includes(search.toLowerCase())
         );
+
     });
-    const indexOfLastStudent = currentPage * studentsPerPage;
+
+    // PAGINATION
+
+    const indexOfLastStudent =
+        currentPage * studentsPerPage;
+
     const indexOfFirstStudent =
         indexOfLastStudent - studentsPerPage;
-    const currentStudents = filteredStudents.slice(
-        indexOfFirstStudent,
-        indexOfLastStudent
-    );
-    const totalPages = Math.ceil(
-        filteredStudents.length / studentsPerPage
-    );
+
+    const currentStudents =
+        filteredStudents.slice(
+            indexOfFirstStudent,
+            indexOfLastStudent
+        );
+
+    const totalPages =
+        Math.ceil(
+            filteredStudents.length / studentsPerPage
+        );
 
     // STUDENT DETAILS
 
@@ -268,6 +353,7 @@ function Student({ page, setPage }) {
                     <button
                         className="back-button"
                         onClick={() => {
+
                             setEditStudent(null);
                             setName("");
                             setEmail("");
@@ -276,13 +362,16 @@ function Student({ page, setPage }) {
                             setCity("");
                             setImage("");
                             setPage("dashboard");
+
                         }}
                     >
                         ← Dashboard
                     </button>
 
                     <h1>
-                        {editStudent ? "Edit Student" : "Add Student"}
+                        {editStudent
+                            ? "Edit Student"
+                            : "Add Student"}
                     </h1>
 
                     <p>
@@ -327,7 +416,7 @@ function Student({ page, setPage }) {
                                     onChange={(e) =>
                                         setEmail(e.target.value)
                                     }
-                                    placeholder="Enter student email"
+                                    placeholder="Enter Gmail address"
                                     required
                                 />
 
@@ -336,21 +425,38 @@ function Student({ page, setPage }) {
                         </div>
 
                         <div className="student-form-row">
+
                             <div className="input-group">
+
                                 <label>Phone</label>
+
                                 <input
                                     type="text"
                                     value={phone}
-                                    onChange={(e) =>
-                                        setPhone(e.target.value)
-                                    }
-                                    placeholder="Enter phone number"
+                                    onChange={(e) => {
+
+                                        const value =
+                                            e.target.value;
+
+                                        if (
+                                            /^\d*$/.test(value) &&
+                                            value.length <= 10
+                                        ) {
+                                            setPhone(value);
+                                        }
+
+                                    }}
+                                    placeholder="Enter 10 digit phone number"
+                                    maxLength="10"
                                     required
                                 />
+
                             </div>
 
                             <div className="input-group">
+
                                 <label>Course</label>
+
                                 <input
                                     type="text"
                                     value={course}
@@ -391,7 +497,9 @@ function Student({ page, setPage }) {
                                     type="file"
                                     accept="image/*"
                                     onChange={(e) =>
-                                        setImage(e.target.files[0])
+                                        setImage(
+                                            e.target.files[0]
+                                        )
                                     }
                                     required={!editStudent}
                                 />
@@ -446,38 +554,52 @@ function Student({ page, setPage }) {
                         type="text"
                         placeholder="Search by name, email or course..."
                         value={search}
-                        onChange={(e) =>
-                            setSearch(e.target.value)
-                        }
+                        onChange={(e) => {
+
+                            setSearch(e.target.value);
+                            setCurrentPage(1);
+
+                        }}
                     />
 
                 </div>
 
                 <div className="student-list">
+
                     {currentStudents.length === 0 ? (
+
                         <p>
                             {search
                                 ? "No students found for your search."
                                 : "No students found."}
                         </p>
+
                     ) : (
+
                         currentStudents.map((student) => (
+
                             <div
                                 className="student-box"
                                 key={student._id}
                             >
+
                                 <img
                                     src={`http://localhost:5000/uploads/${student.image}`}
                                     alt={student.name}
                                 />
+
                                 <h3>{student.name}</h3>
+
                                 <p>
                                     Email: {student.email}
                                 </p>
+
                                 <p>
                                     Course: {student.course}
                                 </p>
+
                                 <div className="student-buttons">
+
                                     <button
                                         className="main-button"
                                         onClick={() =>
@@ -486,6 +608,7 @@ function Student({ page, setPage }) {
                                     >
                                         View
                                     </button>
+
                                     <button
                                         className="edit-button"
                                         onClick={() =>
@@ -494,6 +617,7 @@ function Student({ page, setPage }) {
                                     >
                                         Edit
                                     </button>
+
                                     <button
                                         className="delete-button"
                                         onClick={() =>
@@ -502,32 +626,55 @@ function Student({ page, setPage }) {
                                     >
                                         Delete
                                     </button>
+
                                 </div>
+
                             </div>
+
                         ))
+
                     )}
+
                 </div>
 
                 {totalPages > 1 && (
+
                     <div className="pagination">
+
                         <button
-                            onClick={() => setCurrentPage(currentPage - 1)}
+                            onClick={() =>
+                                setCurrentPage(
+                                    currentPage - 1
+                                )
+                            }
                             disabled={currentPage === 1}
                         >
                             ← Previous
                         </button>
+
                         <span>
                             Page {currentPage} of {totalPages}
                         </span>
+
                         <button
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                            disabled={currentPage === totalPages}
+                            onClick={() =>
+                                setCurrentPage(
+                                    currentPage + 1
+                                )
+                            }
+                            disabled={
+                                currentPage === totalPages
+                            }
                         >
                             Next →
                         </button>
+
                     </div>
+
                 )}
+
             </div>
+
         </div>
     );
 }

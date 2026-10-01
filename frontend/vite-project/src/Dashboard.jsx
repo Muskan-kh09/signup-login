@@ -2,8 +2,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Student from "./Student";
 import Attendance from "./Attendance";
+import Course from "./Course";
+import Registration from "./Registration";
+import FeePayment from "./FeePayment";
+import FeeReceipt from "./FeeReceipt";
 
-function Dashboard({ logout }) {
+function Dashboard({
+    logout,
+    selectedPayment,
+    setSelectedPayment
+}) {
 
     const [page, setPage] = useState("dashboard");
 
@@ -12,120 +20,356 @@ function Dashboard({ logout }) {
     const [absentToday, setAbsentToday] = useState(0);
     const [overallAttendance, setOverallAttendance] = useState(0);
 
+
     useEffect(() => {
-    getStudentCount();
-    getTodayAttendance();
-    getOverallAttendance();
+        getStudentCount();
+        getTodayAttendance();
+        getOverallAttendance();
     }, [page]);
-       
+
+
     const getStudentCount = async () => {
+
         try {
+
             const response = await axios.get(
                 "http://localhost:5000/api/students"
             );
+
             setTotalStudents(response.data.length);
+
         } catch (error) {
-            console.log("Student count error:", error);
+
+            console.log(
+                "Student count error:",
+                error
+            );
+
         }
+
     };
 
+
     const getTodayAttendance = async () => {
+
         try {
+
             const response = await axios.get(
                 "http://localhost:5000/api/attendance/today"
             );
+
             setPresentToday(response.data.present);
             setAbsentToday(response.data.absent);
+
         } catch (error) {
-            console.log("Today attendance error:", error);
+
+            console.log(
+                "Today attendance error:",
+                error
+            );
+
         }
+
     };
 
+
     const getOverallAttendance = async () => {
+
         try {
+
             const response = await axios.get(
                 "http://localhost:5000/api/attendance/overall"
             );
-            setOverallAttendance(response.data.percentage);
+
+            setOverallAttendance(
+                response.data.percentage
+            );
+
         } catch (error) {
+
             console.log(
                 "Overall attendance error:",
                 error
             );
+
         }
+
     };
 
+
     if (page === "add") {
-        return <Student page="add" setPage={setPage} />;
+
+        return (
+            <Student
+                page="add"
+                setPage={setPage}
+            />
+        );
+
     }
+
 
     if (page === "students") {
-        return <Student page="students" setPage={setPage} />;
+
+        return (
+            <Student
+                page="students"
+                setPage={setPage}
+            />
+        );
+
     }
+
 
     if (page === "attendance") {
-        return <Attendance setPage={setPage} />;
+
+        return (
+            <Attendance
+                setPage={setPage}
+            />
+        );
+
     }
 
+
+    if (page === "course") {
+
+        return (
+            <Course
+                setPage={setPage}
+            />
+        );
+
+    }
+
+
+    if (page === "registration") {
+
+        return (
+            <Registration
+                setPage={setPage}
+            />
+        );
+
+    }
+
+
+    if (page === "fee-payment") {
+
+        return (
+            <FeePayment
+                setPage={setPage}
+                setSelectedPayment={setSelectedPayment}
+            />
+        );
+
+    }
+
+
+    if (page === "fee-receipt") {
+
+        return (
+            <FeeReceipt
+                payment={selectedPayment}
+                setPage={setPage}
+            />
+        );
+
+    }
+
+
     return (
+
         <div className="dashboard-container">
 
             <div className="dashboard-card">
 
                 <h1>Student Dashboard</h1>
 
-                <p>Manage your students from here</p>
+                <p>
+                    Manage your students from here
+                </p>
+
 
                 <div className="dashboard-stats">
+
                     <div className="dashboard-count">
-                        <h2>{totalStudents}</h2>
-                        <span>Total Students</span>
+
+                        <h2>
+                            {totalStudents}
+                        </h2>
+
+                        <span>
+                            Total Students
+                        </span>
+
                     </div>
+
+
                     <div className="dashboard-count present-count">
-                        <h2>{presentToday}</h2>
-                        <span>Present Today</span>
+
+                        <h2>
+                            {presentToday}
+                        </h2>
+
+                        <span>
+                            Present Today
+                        </span>
+
                     </div>
+
+
                     <div className="dashboard-count absent-count">
-                        <h2>{absentToday}</h2>
-                        <span>Absent Today</span>
+
+                        <h2>
+                            {absentToday}
+                        </h2>
+
+                        <span>
+                            Absent Today
+                        </span>
+
                     </div>
+
+
                     <div className="dashboard-count overall-count">
+
                         <h2>
                             {overallAttendance.toFixed(2)}%
                         </h2>
+
                         <span>
                             Overall Attendance
                         </span>
+
                     </div>
+
                 </div>
+
 
                 <div className="dashboard-buttons">
 
                     <button
                         className="dashboard-button add-student"
-                        onClick={() => setPage("add")} >
-                        <span className="button-icon">+</span>
-                        <strong>Add Student</strong>
-                        <small>Add a new student</small>
+                        onClick={() => setPage("add")}
+                    >
+
+                        <span className="button-icon">
+                            +
+                        </span>
+
+                        <strong>
+                            Add Student
+                        </strong>
+
+                        <small>
+                            Add a new student
+                        </small>
+
                     </button>
+
 
                     <button
                         className="dashboard-button view-student"
-                        onClick={() => setPage("students")} >
-                        <span className="button-icon">👥</span>
-                        <strong>View Students</strong>
-                        <small>View all students</small>
+                        onClick={() => setPage("students")}
+                    >
+
+                        <span className="button-icon">
+                            👥
+                        </span>
+
+                        <strong>
+                            View Students
+                        </strong>
+
+                        <small>
+                            View all students
+                        </small>
+
                     </button>
+
 
                     <button
                         className="dashboard-button attendance-button"
-                        onClick={() => setPage("attendance")} >
-                        <span className="button-icon">📋</span>
-                        <strong>Mark Attendance</strong>
-                        <small>Mark student attendance</small>
+                        onClick={() => setPage("attendance")}
+                    >
+
+                        <span className="button-icon">
+                            📋
+                        </span>
+
+                        <strong>
+                            Mark Attendance
+                        </strong>
+
+                        <small>
+                            Mark student attendance
+                        </small>
+
+                    </button>
+
+
+                    <button
+                        className="dashboard-button course-button"
+                        onClick={() => setPage("course")}
+                    >
+
+                        <span className="button-icon">
+                            📚
+                        </span>
+
+                        <strong>
+                            Manage Courses
+                        </strong>
+
+                        <small>
+                            Add and manage training courses
+                        </small>
+
+                    </button>
+
+
+                    <button
+                        className="dashboard-button registration-button"
+                        onClick={() => setPage("registration")}
+                    >
+
+                        <span className="button-icon">
+                            📝
+                        </span>
+
+                        <strong>
+                            Student Registration
+                        </strong>
+
+                        <small>
+                            Register student for a course
+                        </small>
+
+                    </button>
+
+
+                    <button
+                        className="dashboard-button fee-payment-button"
+                        onClick={() => setPage("fee-payment")}
+                    >
+
+                        <span className="button-icon">
+                            💰
+                        </span>
+
+                        <strong>
+                            Fee Payment
+                        </strong>
+
+                        <small>
+                            Manage student fees and installments
+                        </small>
+
                     </button>
 
                 </div>
+
 
                 <button
                     className="logout-button"
@@ -133,8 +377,13 @@ function Dashboard({ logout }) {
                 >
                     Logout
                 </button>
+
             </div>
+
         </div>
+
     );
+
 }
+
 export default Dashboard;

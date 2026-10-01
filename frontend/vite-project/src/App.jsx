@@ -2,6 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import Dashboard from "./Dashboard";
 import Student from "./Student";
+import Course from "./Course";
+import FeePayment from "./FeePayment";
+import FeeReceipt from "./FeeReceipt";
 import "./App.css";
 
 function App() {
@@ -15,6 +18,9 @@ function App() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [selectedPayment, setSelectedPayment] = useState(null);
+
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -48,6 +54,7 @@ function App() {
         }
     };
 
+
     const handleLogin = async (e) => {
         e.preventDefault();
 
@@ -80,36 +87,94 @@ function App() {
         }
     };
 
+
     if (page === "dashboard") {
-       return (
+
+        return (
             <Dashboard
+                setPage={setPage}
+                selectedPayment={selectedPayment}
+                setSelectedPayment={setSelectedPayment}
                 logout={() => {
                     localStorage.removeItem("isLoggedIn");
                     setPage("login");
                 }}
             />
         );
+
     }
+
+
+    if (page === "course") {
+
+        return (
+            <Course />
+        );
+
+    }
+
+
+    if (page === "student") {
+
+        return (
+            <Student
+                page="students"
+                setPage={setPage}
+            />
+        );
+
+    }
+
+
+    if (page === "fee-payment") {
+
+        return (
+            <FeePayment
+                setPage={setPage}
+                setSelectedPayment={setSelectedPayment}
+            />
+        );
+
+    }
+
+
+    if (page === "fee-receipt") {
+
+        return (
+            <FeeReceipt
+                payment={selectedPayment}
+                setPage={setPage}
+            />
+        );
+
+    }
+
 
     return (
         <div className="main-container">
 
             <div className="auth-card">
-
                 <div className="auth-header">
+
                     <h1>
                         {page === "signup"
                             ? "Create Account"
                             : "Welcome Back"}
                     </h1>
+
                     <p>
                         {page === "signup"
                             ? "Create your account to get started"
                             : "Login to continue to your account"}
                     </p>
+
                 </div>
+
+
                 {page === "signup" ? (
+
                     <form onSubmit={handleSignup}>
+
                         <div className="input-group">
 
                             <label>Full Name</label>
@@ -124,6 +189,7 @@ function App() {
                             />
 
                         </div>
+
 
                         <div className="input-group">
 
@@ -140,20 +206,36 @@ function App() {
 
                         </div>
 
+
                         <div className="input-group">
 
                             <label>Password</label>
 
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) =>
-                                    setPassword(e.target.value)
-                                }
-                                placeholder="Enter your password"
-                            />
+                            <div className="password-box">
+
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                    placeholder="Enter your password"
+                                />
+
+                                <button
+                                    type="button"
+                                    className="password-toggle"
+                                    onClick={() =>
+                                        setShowPassword(!showPassword)
+                                    }
+                                >
+                                    {showPassword ? "Hide" : "Show"}
+                                </button>
+
+                            </div>
 
                         </div>
+
 
                         <button
                             className="main-button"
@@ -183,20 +265,36 @@ function App() {
 
                         </div>
 
+
                         <div className="input-group">
 
                             <label>Password</label>
 
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) =>
-                                    setPassword(e.target.value)
-                                }
-                                placeholder="Enter your password"
-                            />
+                            <div className="password-box">
+
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                    placeholder="Enter your password"
+                                />
+
+                                <button
+                                    type="button"
+                                    className="password-toggle"
+                                    onClick={() =>
+                                        setShowPassword(!showPassword)
+                                    }
+                                >
+                                    {showPassword ? "Hide" : "Show"}
+                                </button>
+
+                            </div>
 
                         </div>
+
 
                         <button
                             className="main-button"
@@ -208,6 +306,7 @@ function App() {
                     </form>
 
                 )}
+
 
                 <div className="switch-page">
 
