@@ -2567,3 +2567,14 @@ body {
     color: #3730a3;
 }
 
+.error-message {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 13px;
+    text-align: center;
+}

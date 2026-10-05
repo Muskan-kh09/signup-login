@@ -19,11 +19,29 @@ function App() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [selectedPayment, setSelectedPayment] = useState(null);
 
 
     const handleSignup = async (e) => {
         e.preventDefault();
+
+        setErrorMessage("");
+
+        if (password.length < 6) {
+            setErrorMessage("Password must be at least 6 characters long");
+            return;
+        } 
+
+        if (!email.endsWith("@gmail.com")) {
+            setErrorMessage("Please enter a valid Gmail address");
+            return;
+        }
+
+        if (name.trim() === "") {
+            setErrorMessage("Please enter your full name");
+            return;
+        }
 
         try {
 
@@ -41,12 +59,13 @@ function App() {
             setName("");
             setEmail("");
             setPassword("");
+            setShowPassword(false);
 
             setPage("login");
 
         } catch (error) {
 
-            alert(
+            setErrorMessage(
                 error.response?.data?.message ||
                 "Signup failed"
             );
@@ -57,6 +76,23 @@ function App() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        setErrorMessage("");
+
+         if (email.trim() === "") {
+            setErrorMessage("Please enter your email address");
+            return;
+        }
+
+        if (password.trim() === "") {
+            setErrorMessage("Please enter your password");
+            return; 
+        }
+
+        if (!email.endsWith("@gmail.com")) {
+            setErrorMessage("Please enter a valid Gmail address");
+            return;
+        }
 
         try {
 
@@ -72,6 +108,7 @@ function App() {
 
             setEmail("");
             setPassword("");
+            setShowPassword(false);
 
             localStorage.setItem("isLoggedIn", "true");
 
@@ -79,7 +116,7 @@ function App() {
 
         } catch (error) {
 
-            alert(
+            setErrorMessage(
                 error.response?.data?.message ||
                 "Login failed"
             );
@@ -170,6 +207,11 @@ function App() {
 
                 </div>
 
+                {errorMessage && (
+                    <div className="error-message">
+                        {errorMessage}
+                    </div>
+                )}
 
                 {page === "signup" ? (
 
@@ -182,9 +224,10 @@ function App() {
                             <input
                                 type="text"
                                 value={name}
-                                onChange={(e) =>
-                                    setName(e.target.value)
-                                }
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                    setErrorMessage("");
+                                }}
                                 placeholder="Enter your full name"
                             />
 
@@ -198,9 +241,10 @@ function App() {
                             <input
                                 type="email"
                                 value={email}
-                                onChange={(e) =>
-                                    setEmail(e.target.value)
-                                }
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                    setErrorMessage("");
+                                }}
                                 placeholder="Enter your email"
                             />
 
@@ -216,9 +260,10 @@ function App() {
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                        setErrorMessage("");
+                                    }}
                                     placeholder="Enter your password"
                                 />
 
@@ -257,9 +302,10 @@ function App() {
                             <input
                                 type="email"
                                 value={email}
-                                onChange={(e) =>
-                                    setEmail(e.target.value)
-                                }
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                    setErrorMessage("");
+                                }}
                                 placeholder="Enter your email"
                             />
 
@@ -275,9 +321,10 @@ function App() {
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                        setErrorMessage("");
+                                    }}
                                     placeholder="Enter your password"
                                 />
 
