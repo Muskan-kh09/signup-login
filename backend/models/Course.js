@@ -30,13 +30,18 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+
+    document: {
+        type: String,
+        default: ""
     }
 
 });
 
 
 // Registration fee cannot be greater than total fees
-courseSchema.pre("validate", function (next) {
+courseSchema.pre("validate", function () {
 
     if (this.registrationFee > this.totalFees) {
 
@@ -46,8 +51,6 @@ courseSchema.pre("validate", function (next) {
         );
 
     }
-
-    next();
 
 });
 

@@ -5,6 +5,7 @@ import Student from "./Student";
 import Course from "./Course";
 import FeePayment from "./FeePayment";
 import FeeReceipt from "./FeeReceipt";
+import Notifications from "./Notifications";
 import "./App.css";
 
 function App() {
@@ -111,8 +112,12 @@ function App() {
             setShowPassword(false);
 
             localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem(
+                "notificationStudentId",
+                response.data.user.studentId || ""
+            );
 
-            setPage("dashboard");
+setPage("dashboard");
 
         } catch (error) {
 
@@ -126,7 +131,6 @@ function App() {
 
 
     if (page === "dashboard") {
-
         return (
             <Dashboard
                 setPage={setPage}
@@ -138,52 +142,53 @@ function App() {
                 }}
             />
         );
-
     }
 
 
     if (page === "course") {
-
         return (
             <Course />
         );
-
     }
 
 
     if (page === "student") {
-
         return (
             <Student
                 page="students"
                 setPage={setPage}
             />
         );
-
     }
 
 
     if (page === "fee-payment") {
-
         return (
             <FeePayment
                 setPage={setPage}
                 setSelectedPayment={setSelectedPayment}
             />
         );
-
     }
 
 
     if (page === "fee-receipt") {
-
         return (
             <FeeReceipt
                 payment={selectedPayment}
                 setPage={setPage}
             />
         );
+    }
 
+    if (page === "notifications") {
+        return (
+            <Notifications
+                studentId={localStorage.getItem(
+                    "notificationStudentId"
+                )}
+            />
+        );
     }
 
 

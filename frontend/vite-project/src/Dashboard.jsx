@@ -6,6 +6,9 @@ import Course from "./Course";
 import Registration from "./Registration";
 import FeePayment from "./FeePayment";
 import FeeReceipt from "./FeeReceipt";
+import Notifications from "./Notifications";
+import Certificate from "./Certificate";
+import MyCertificates from "./MyCertificates";
 
 function Dashboard({
     logout,
@@ -19,12 +22,16 @@ function Dashboard({
     const [presentToday, setPresentToday] = useState(0);
     const [absentToday, setAbsentToday] = useState(0);
     const [overallAttendance, setOverallAttendance] = useState(0);
+    const [unreadNotifications, setUnreadNotifications] = useState(0);
 
 
     useEffect(() => {
+
         getStudentCount();
         getTodayAttendance();
         getOverallAttendance();
+        getUnreadNotifications();
+
     }, [page]);
 
 
@@ -74,179 +81,180 @@ function Dashboard({
 
 
     const getOverallAttendance = async () => {
-
         try {
-
             const response = await axios.get(
                 "http://localhost:5000/api/attendance/overall"
             );
-
             setOverallAttendance(
                 response.data.percentage
             );
-
         } catch (error) {
-
             console.log(
                 "Overall attendance error:",
                 error
             );
-
         }
-
     };
+
+    const getUnreadNotifications = async () => {
+
+    const studentId = localStorage.getItem(
+        "notificationStudentId"
+    );
+    if (!studentId) {
+        setUnreadNotifications(0);
+        return;
+    }
+    try {
+        const response = await axios.get(
+            `http://localhost:5000/api/notifications/${studentId}`
+        );
+        const unread = response.data.filter(
+            (notification) => !notification.isRead
+        ).length;
+        setUnreadNotifications(unread);
+    } catch (error) {
+        console.log(
+            "Unread notification error:",
+            error
+        );
+    }
+};
+
+    
 
 
     if (page === "add") {
-
         return (
             <Student
                 page="add"
                 setPage={setPage}
             />
         );
-
     }
 
-
     if (page === "students") {
-
         return (
             <Student
                 page="students"
                 setPage={setPage}
             />
         );
-
     }
 
-
     if (page === "attendance") {
-
         return (
             <Attendance
                 setPage={setPage}
             />
         );
-
     }
 
-
     if (page === "course") {
-
         return (
             <Course
                 setPage={setPage}
             />
         );
-
     }
 
-
     if (page === "registration") {
-
         return (
             <Registration
                 setPage={setPage}
             />
         );
-
     }
 
-
     if (page === "fee-payment") {
-
         return (
             <FeePayment
                 setPage={setPage}
                 setSelectedPayment={setSelectedPayment}
             />
         );
-
     }
 
-
     if (page === "fee-receipt") {
-
         return (
             <FeeReceipt
                 payment={selectedPayment}
                 setPage={setPage}
             />
         );
-
     }
 
+    if (page === "certificate") {
+        return (
+            <Certificate />
+        );
+    }
+
+    if (page === "my-certificates") {
+        return (
+            <MyCertificates />
+        );
+    }
+
+    if (page === "notifications") {
+        return (
+            <Notifications
+                studentId={localStorage.getItem(
+                    "notificationStudentId"
+                )}
+            />
+        );
+    }
 
     return (
-
         <div className="dashboard-container">
-
             <div className="dashboard-card">
-
-                <h1>Student Dashboard</h1>
-
+                <div className="dashboard-top">
+                    <h1>Student Dashboard</h1>
+                    <button
+                        className="logout-button"
+                        onClick={logout}
+                        >
+                        Logout
+                    </button>
+                </div>
                 <p>
                     Manage your students from here
                 </p>
-
-
                 <div className="dashboard-stats">
-
                     <div className="dashboard-count">
-
                         <h2>
                             {totalStudents}
                         </h2>
-
                         <span>
                             Total Students
                         </span>
-
                     </div>
-
-
                     <div className="dashboard-count present-count">
-
                         <h2>
                             {presentToday}
                         </h2>
-
                         <span>
                             Present Today
                         </span>
-
                     </div>
-
-
                     <div className="dashboard-count absent-count">
-
                         <h2>
                             {absentToday}
                         </h2>
-
                         <span>
                             Absent Today
                         </span>
-
                     </div>
-
-
                     <div className="dashboard-count overall-count">
-
                         <h2>
                             {overallAttendance.toFixed(2)}%
                         </h2>
-
                         <span>
                             Overall Attendance
                         </span>
-
                     </div>
-
                 </div>
-
-
                 <div className="dashboard-buttons">
 
                     <button
@@ -353,37 +361,72 @@ function Dashboard({
                         className="dashboard-button fee-payment-button"
                         onClick={() => setPage("fee-payment")}
                     >
-
                         <span className="button-icon">
                             💰
                         </span>
-
                         <strong>
                             Fee Payment
                         </strong>
-
                         <small>
                             Manage student fees and installments
                         </small>
-
                     </button>
 
+                    <button
+                        className="dashboard-button certificate-button"
+                        onClick={() => setPage("certificate")}
+                        >
+                        <span className="button-icon">
+                            🎓
+                        </span>
+                        <strong>
+                            Certificates
+                        </strong>
+                        <small>
+                            Manage student certificates
+                        </small>
+                    </button>
+                    <button
+                        className="dashboard-button my-certificate-button"
+                        onClick={() => setPage("my-certificates")}
+                        >
+
+                        <span className="button-icon">
+                            🏆
+                        </span>
+
+                        <strong>
+                            My Certificates
+                        </strong>
+
+                        <small>
+                            View student certificates
+                        </small>
+
+                    </button>
+                    <button
+                        className="dashboard-button notification-button"
+                        onClick={() => setPage("notifications")}
+                         >
+                        <span className="button-icon">
+                            🔔
+                            {unreadNotifications > 0 && (
+                                <span className="notification-badge">
+                                    {unreadNotifications}
+                                </span>
+                            )}
+                        </span>
+                        <strong>
+                            Notifications
+                        </strong>
+                        <small>
+                            View student notifications
+                        </small>
+                    </button>
                 </div>
-
-
-                <button
-                    className="logout-button"
-                    onClick={logout}
-                >
-                    Logout
-                </button>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default Dashboard;

@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
+const Student = require("../models/Student");
 
 const router = express.Router();
 
@@ -64,11 +65,16 @@ router.post("/login", async (req, res) => {
             });
         }
 
+        const student = await Student.findOne({
+            email: email
+        });
+
         res.status(200).json({
             message: "Login successful",
             user: {
                 name: user.name,
-                email: user.email
+                email: user.email,
+                studentId: student ? student._id : null
             }
         });
 

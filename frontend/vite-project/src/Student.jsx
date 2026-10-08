@@ -9,7 +9,7 @@ function Student({ page, setPage }) {
     const [course, setCourse] = useState("");
     const [city, setCity] = useState("");
     const [image, setImage] = useState("");
-
+    const [document, setDocument] = useState("");
     const [students, setStudents] = useState([]);
 
     const [selectedStudent, setSelectedStudent] = useState(null);
@@ -97,6 +97,10 @@ function Student({ page, setPage }) {
             formData.append("course", course);
             formData.append("city", city);
             formData.append("image", image);
+
+            if (document) {
+                formData.append("document", document);
+            }
 
             const response = await axios.post(
                 "http://localhost:5000/api/students",
@@ -333,7 +337,50 @@ function Student({ page, setPage }) {
                     <p>
                         <strong>City:</strong> {selectedStudent.city}
                     </p>
+                    {selectedStudent.document && (
+                        <div>
+                            <strong>Document:</strong>
+                            <br />
+<button
+    className="main-button"
+    onClick={async () => {
 
+        try {
+
+            const response = await axios.get(
+                `http://localhost:5000/api/students/document/${selectedStudent.document}`,
+                {
+                    responseType: "blob"
+                }
+            );
+
+            const fileURL = window.URL.createObjectURL(
+                response.data
+            );
+
+            window.open(fileURL, "_blank");
+
+        } catch (error) {
+
+            console.log("Document view error:", error);
+
+            alert("Document open nahi ho raha");
+
+        }
+
+    }}
+>
+    View Document
+</button>
+                            <br />
+                            <a
+                                href={`http://localhost:5000/uploads/${selectedStudent.document}`}
+                                download
+                            >
+                                Download Document
+                            </a>
+                        </div>
+                    )}
                 </div>
 
             </div>
@@ -490,9 +537,7 @@ function Student({ page, setPage }) {
                             </div>
 
                             <div className="input-group">
-
                                 <label>Student Image</label>
-
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -503,9 +548,19 @@ function Student({ page, setPage }) {
                                     }
                                     required={!editStudent}
                                 />
-
                             </div>
-
+                            <div className="input-group">
+                                <label>Student Document</label>
+                                <input
+                                    type="file"
+                                    accept=".pdf,.doc,.docx"
+                                    onChange={(e) =>
+                                        setDocument(
+                                            e.target.files[0]
+                                        )
+                                    }
+                                />
+                            </div>
                         </div>
 
                         <button

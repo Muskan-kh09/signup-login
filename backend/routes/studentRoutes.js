@@ -19,7 +19,13 @@ const upload = multer({ storage: storage });
 
 
 // Add student
-router.post("/students", upload.single("image"), async (req, res) => {
+    router.post(
+        "/students",
+        upload.fields([
+            { name: "image", maxCount: 1 },
+            { name: "document", maxCount: 1 }
+        ]),
+        async (req, res) => {
 
     console.log("Student API called");
 
@@ -65,7 +71,7 @@ router.post("/students", upload.single("image"), async (req, res) => {
         }
 
         // Image check
-        if (!req.file) {
+        if (!req.files || !req.files.image) {
             return res.status(400).json({
                 message: "Please upload student image"
             });
@@ -77,7 +83,10 @@ router.post("/students", upload.single("image"), async (req, res) => {
             phone: phone,
             course: course,
             city: city,
-            image: req.file.filename
+            image: req.files.image[0].filename,
+            document: req.files.document
+                ? req.files.document[0].filename
+                : ""
         });
 
         await newStudent.save();
@@ -98,6 +107,47 @@ router.post("/students", upload.single("image"), async (req, res) => {
         });
 
     }
+
+});
+
+
+// View Student Document
+router.get("/students/document/:filename", (req, res) => {
+
+    const path = require("path");
+
+    const filePath = path.join(
+        __dirname,
+        "..",
+        "uploads",
+        req.params.filename
+    );
+
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).send("Document not found");
+    }
+
+    const extension = path.extname(req.params.filename)
+        .toLowerCase();
+
+    if (extension === ".pdf") {
+
+        res.setHeader(
+            "Content-Type",
+            "application/pdf"
+        );
+
+        res.setHeader(
+            "Content-Disposition",
+            "inline"
+        );
+
+        return res.sendFile(filePath);
+    }
+
+    return res.status(400).send(
+        "Only PDF documents can be viewed."
+    );
 
 });
 

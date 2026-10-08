@@ -10,6 +10,8 @@ const attendanceRoutes = require("./routes/attendanceRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const registrationRoutes = require("./routes/registrationRoutes");
 const feePaymentRoutes = require("./routes/feePaymentRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const certificateRoutes = require("./routes/certificateRoutes");
 
 const app = express();
 
@@ -33,6 +35,8 @@ app.use("/api", attendanceRoutes);
 app.use("/api", courseRoutes);
 app.use("/api", registrationRoutes);
 app.use("/api", feePaymentRoutes);
+app.use("/api", notificationRoutes);
+app.use("/api", certificateRoutes);
 
 app.get("/", (req, res) => {
     res.send("Server is running");

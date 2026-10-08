@@ -2,26 +2,23 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Attendance({ setPage }) {
-
+   
     const [students, setStudents] = useState([]);
     const [attendance, setAttendance] = useState([]);
     const [summary, setSummary] = useState([]);
-
     const [filterDate, setFilterDate] = useState("");
-
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-
     const [selectedStudent, setSelectedStudent] = useState("");
     const [studentAttendance, setStudentAttendance] = useState(null);
     const [studentRecords, setStudentRecords] = useState([]);
     const [showStudentAttendance, setShowStudentAttendance] = useState(false);
-
     const [studentId, setStudentId] = useState("");
     const [date, setDate] = useState("");
     const [status, setStatus] = useState("Present");
-
     const [editAttendance, setEditAttendance] = useState(null);
+    const [locationStatus, setLocationStatus] = useState("");
+    const [locationAllowed, setLocationAllowed] = useState(false);
 
 
     useEffect(() => {
@@ -153,40 +150,103 @@ function Attendance({ setPage }) {
     };
 
 
-    const handleAttendance = async (e) => {
+   const handleAttendance = async (e) => {
+    e.preventDefault();
+    if (!navigator.geolocation) {
+        alert("Your browser does not support location.");
+        return;
+    }
+    navigator.geolocation.getCurrentPosition(
+        async (position) => {
+            const userLatitude = position.coords.latitude;
+            const userLongitude = position.coords.longitude;
+            const instituteLatitude = 31.315364;
+            const instituteLongitude = 75.588858;
+            const toRadians = (degree) => {
+                return degree * (Math.PI / 180);
+            };
 
-        e.preventDefault();
+            const earthRadius = 6371000;
 
-        try {
+            const latitudeDifference =
+                toRadians(
+                    instituteLatitude - userLatitude
+                );
 
-            const response = await axios.post(
-                "http://localhost:5000/api/attendance",
-                {
-                    studentId: studentId,
-                    date: date,
-                    status: status
-                }
+            const longitudeDifference =
+                toRadians(
+                    instituteLongitude - userLongitude
+                );
+
+            const a =
+                Math.sin(latitudeDifference / 2) *
+                Math.sin(latitudeDifference / 2) +
+                Math.cos(
+                    toRadians(userLatitude)
+                ) *
+                Math.cos(
+                    toRadians(instituteLatitude)
+                ) *
+                Math.sin(longitudeDifference / 2) *
+                Math.sin(longitudeDifference / 2);
+
+            const c =
+                2 *
+                Math.atan2(
+                    Math.sqrt(a),
+                    Math.sqrt(1 - a)
+                );
+
+            const distance = earthRadius * c;
+
+            console.log(
+                "Distance from institute:",
+                distance,
+                "meters"
             );
 
-            alert(response.data.message);
+            if (distance > 100) {
+                alert(
+                    `Attendance allowed only within 100 meters of the institute.\n\nYour distance: ${Math.round(distance)} meters`
+                );
+                return;
+            }
 
-            setStudentId("");
-            setDate("");
-            setStatus("Present");
-
-            getAttendance();
-            getSummary();
-
-        } catch (error) {
-
+            try {
+                const response = await axios.post(
+                    "http://localhost:5000/api/attendance",
+                    {
+                        studentId: studentId,
+                        date: date,
+                        status: status,
+                        latitude: userLatitude,
+                        longitude: userLongitude
+                    }
+                );
+                alert(response.data.message);
+                setStudentId("");
+                setDate("");
+                setStatus("Present");
+                getAttendance();
+                getSummary();
+            } catch (error) {
+                alert(
+                    error.response?.data?.message ||
+                    "Attendance failed"
+                );
+            }
+        },
+        (error) => {
+            console.log(
+                "Location error:",
+                error
+            );
             alert(
-                error.response?.data?.message ||
-                "Attendance failed"
+                "Please allow location permission to mark attendance."
             );
-
         }
-
-    };
+    );
+};
 
 
     const handleEdit = (record) => {
@@ -654,43 +714,24 @@ function Attendance({ setPage }) {
                                 ) : (
 
                                     <div className="attendance-table-container">
-
                                         <table className="attendance-table">
-
-
                                             <thead>
-
                                                 <tr>
-
-                                                    <th>
-                                                        Date
-                                                    </th>
-
-                                                    <th>
-                                                        Status
-                                                    </th>
-
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                    <th>Distance</th>
                                                 </tr>
-
                                             </thead>
-
-
                                             <tbody>
-
                                                 {studentRecords.map(
                                                     (record) => (
-
                                                         <tr
                                                             key={record._id}
                                                         >
-
                                                             <td>
                                                                 {record.date}
                                                             </td>
-
-
                                                             <td>
-
                                                                 <span
                                                                     className={
                                                                         record.status === "Present"
@@ -700,28 +741,21 @@ function Attendance({ setPage }) {
                                                                 >
                                                                     {record.status}
                                                                 </span>
-
                                                             </td>
-
+                                                            <td>
+                                                                {record.distance !== undefined
+                                                                    ? `${record.distance} m`
+                                                                    : "N/A"}
+                                                            </td>
                                                         </tr>
-
                                                     )
                                                 )}
-
                                             </tbody>
-
-
                                         </table>
-
                                     </div>
-
                                 )}
-
-
                             </div>
-
                         )}
-
                 </div>
 
 
@@ -743,80 +777,42 @@ function Attendance({ setPage }) {
                     ) : (
 
                         <div className="attendance-table-container">
-
                             <table className="attendance-table">
-
-
                                 <thead>
-
                                     <tr>
-
-                                        <th>
-                                            Student
-                                        </th>
-
-                                        <th>
-                                            Total
-                                        </th>
-
-                                        <th>
-                                            Present
-                                        </th>
-
-                                        <th>
-                                            Absent
-                                        </th>
-
-                                        <th>
-                                            Percentage
-                                        </th>
-
+                                        <th>Student</th>
+                                        <th>Total</th>
+                                        <th>Present</th>
+                                        <th>Absent</th>
+                                        <th>Percentage</th>
                                     </tr>
-
                                 </thead>
-
-
                                 <tbody>
-
                                     {summary.map((student) => (
-
                                         <tr
                                             key={student.studentId}
                                         >
-
                                             <td>
                                                 {student.name}
                                             </td>
-
                                             <td>
                                                 {student.total}
                                             </td>
-
                                             <td>
                                                 {student.present}
                                             </td>
-
                                             <td>
                                                 {student.absent}
                                             </td>
-
                                             <td>
                                                 {student.percentage.toFixed(2)}%
                                             </td>
-
                                         </tr>
-
                                     ))}
-
                                 </tbody>
-
-
                             </table>
-
                         </div>
-
                     )}
-
                 </div>
 
 
@@ -866,55 +862,29 @@ function Attendance({ setPage }) {
                     ) : (
 
                         <div className="attendance-table-container">
-
                             <table className="attendance-table">
-
-
                                 <thead>
-
                                     <tr>
-
-                                        <th>
-                                            Student
-                                        </th>
-
-                                        <th>
-                                            Date
-                                        </th>
-
-                                        <th>
-                                            Status
-                                        </th>
-
-                                        <th>
-                                            Action
-                                        </th>
-
+                                        <th>Student</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Distance</th>
+                                        <th>Location</th>
+                                        <th>Action</th>
                                     </tr>
-
                                 </thead>
-
-
                                 <tbody>
-
                                     {attendance.map((record) => (
-
                                         <tr
                                             key={record._id}
                                         >
-
                                             <td>
                                                 {record.studentId?.name}
                                             </td>
-
-
                                             <td>
                                                 {record.date}
                                             </td>
-
-
                                             <td>
-
                                                 <span
                                                     className={
                                                         record.status === "Present"
@@ -924,15 +894,19 @@ function Attendance({ setPage }) {
                                                 >
                                                     {record.status}
                                                 </span>
-
                                             </td>
-
-
                                             <td>
-
+                                                {record.distance !== undefined
+                                                    ? `${record.distance} m`
+                                                    : "N/A"}
+                                            </td>
+                                            <td>
+                                                {record.latitude && record.longitude
+                                                    ? "📍 Within 100m"
+                                                    : "N/A"}
+                                            </td>
+                                            <td>
                                                 <div className="attendance-buttons">
-
-
                                                     <button
                                                         className="attendance-edit-button"
                                                         onClick={() =>
@@ -943,8 +917,6 @@ function Attendance({ setPage }) {
                                                     >
                                                         Edit
                                                     </button>
-
-
                                                     <button
                                                         className="attendance-delete-button"
                                                         onClick={() =>
@@ -955,34 +927,17 @@ function Attendance({ setPage }) {
                                                     >
                                                         Delete
                                                     </button>
-
-
                                                 </div>
-
                                             </td>
-
                                         </tr>
-
                                     ))}
-
                                 </tbody>
-
-
                             </table>
-
                         </div>
-
                     )}
-
                 </div>
-
-
             </div>
-
         </div>
-
     );
-
 }
-
 export default Attendance;

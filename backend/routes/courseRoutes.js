@@ -1,11 +1,29 @@
 const express = require("express");
 const Course = require("../models/Course");
+const multer = require("multer");
+const fs = require("fs");
 
 const router = express.Router();
 
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, "uploads/");
+        },
+
+        filename: function (req, file, cb) {
+            cb(null, Date.now() + "-" + file.originalname);
+        }
+    });
+    const upload = multer({
+        storage: storage
+    });
+
 
 // Add course
-router.post("/courses", async (req, res) => {
+    router.post(
+        "/courses",
+        upload.single("document"),
+        async (req, res) => {
 
     try {
 
@@ -22,7 +40,10 @@ router.post("/courses", async (req, res) => {
             duration: duration,
             totalFees: totalFees,
             registrationFee: registrationFee,
-            description: description
+            description: description,
+            document: req.file
+                ? req.file.filename
+                : ""
         });
 
         await newCourse.save();
@@ -53,6 +74,47 @@ router.post("/courses", async (req, res) => {
         });
 
     }
+
+});
+
+// View Course Document
+router.get("/courses/document/:filename", (req, res) => {
+
+    const path = require("path");
+
+    const filePath = path.join(
+        __dirname,
+        "..",
+        "uploads",
+        req.params.filename
+    );
+
+    if (!fs.existsSync(filePath)) {
+        return res.status(404).send("Document not found");
+    }
+
+    const extension = path.extname(
+        req.params.filename
+    ).toLowerCase();
+
+    if (extension === ".pdf") {
+
+        res.setHeader(
+            "Content-Type",
+            "application/pdf"
+        );
+
+        res.setHeader(
+            "Content-Disposition",
+            "inline"
+        );
+
+        return res.sendFile(filePath);
+    }
+
+    return res.status(400).send(
+        "Only PDF documents can be viewed."
+    );
 
 });
 

@@ -3,26 +3,118 @@ const Attendance = require("../models/Attendance");
 
 const router = express.Router();
 
+const INSTITUTE_LATITUDE = 31.315364;
+const INSTITUTE_LONGITUDE = 75.588858;
+const ATTENDANCE_RADIUS = 100;
+
+    const toRadians = (degree) => {
+        return degree * (Math.PI / 180);
+    };
+
+    const calculateDistance = (
+        latitude1,
+        longitude1,
+        latitude2,
+        longitude2
+    ) => {
+
+        const earthRadius = 6371000;
+
+        const latitudeDifference =
+            toRadians(latitude2 - latitude1);
+
+        const longitudeDifference =
+            toRadians(longitude2 - longitude1);
+
+        const a =
+            Math.sin(latitudeDifference / 2) *
+            Math.sin(latitudeDifference / 2) +
+            Math.cos(toRadians(latitude1)) *
+            Math.cos(toRadians(latitude2)) *
+            Math.sin(longitudeDifference / 2) *
+            Math.sin(longitudeDifference / 2);
+
+        const c =
+            2 *
+            Math.atan2(
+                Math.sqrt(a),
+                Math.sqrt(1 - a)
+            );
+
+        return earthRadius * c;
+    };
 
 // Add Attendance
 router.post("/attendance", async (req, res) => {
 
     try {
 
-        const { studentId, date, status } = req.body;
+        const {
+            studentId,
+            date,
+            status,
+            latitude,
+            longitude
+        } = req.body;
 
+
+        // Check Location
+        if (
+            latitude === undefined ||
+            longitude === undefined
+        ) {
+
+            return res.status(400).json({
+                message: "Location is required to mark attendance"
+            });
+
+        }
+
+        // Calculate Distance From Institute
+        const distance = calculateDistance(
+            Number(latitude),
+            Number(longitude),
+            INSTITUTE_LATITUDE,
+            INSTITUTE_LONGITUDE
+        );
+
+        console.log(
+            "Attendance location distance:",
+            Math.round(distance),
+            "meters"
+        );
+
+
+        // Allow Attendance Only Within 100 Meters
+        if (distance > ATTENDANCE_RADIUS) {
+
+            return res.status(403).json({
+                message:
+                    `Attendance allowed only within 100 meters. Your distance is ${Math.round(distance)} meters.`
+            });
+
+        }
+
+
+        // Create Attendance
         const newAttendance = new Attendance({
             studentId: studentId,
             date: date,
-            status: status
+            status: status,
+            latitude: Number(latitude),
+            longitude: Number(longitude),
+            distance: Math.round(distance)
         });
 
+
         await newAttendance.save();
+
 
         res.status(201).json({
             message: "Attendance added successfully",
             attendance: newAttendance
         });
+
 
     } catch (error) {
 

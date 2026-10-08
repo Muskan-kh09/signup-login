@@ -2578,3 +2578,968 @@ body {
     font-size: 13px;
     text-align: center;
 }
+
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.notification-modal {
+    width: 500px;
+    max-width: 90%;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    position: relative;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.notification-modal h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.notification-modal .form-group {
+    margin-bottom: 15px;
+}
+
+.notification-modal select,
+.notification-modal input,
+.notification-modal textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.notification-modal textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.notification-close {
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    border: none;
+    background: transparent;
+
+    font-size: 30px;
+
+    cursor: pointer;
+}
+
+.document-info {
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.notification-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 20px;
+    height: 20px;
+
+    padding: 0 5px;
+
+    margin-left: 6px;
+
+    background: red;
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.dashboard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.dashboard-top h1 {
+    margin: 0;
+}
+
+.dashboard-top .logout-button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #ef4444;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.dashboard-top .logout-button:hover {
+    background: #dc2626;
+}
+
+/* ============================= */
+/*       DASHBOARD IMPROVEMENT    */
+/* ============================= */
+
+.dashboard-container {
+    min-height: 100vh;
+    padding: 40px 20px;
+    background: linear-gradient(
+        135deg,
+        #eef2ff,
+        #f8fafc,
+        #e0e7ff
+    );
+}
+
+.dashboard-card {
+    max-width: 1100px;
+    padding: 35px 40px;
+    border: 1px solid #e5e7eb;
+    box-shadow:
+        0 20px 45px rgba(15, 23, 42, 0.08),
+        0 5px 15px rgba(15, 23, 42, 0.04);
+}
+
+.dashboard-top {
+    margin-bottom: 8px;
+}
+
+.dashboard-top h1 {
+    color: #1e293b;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.dashboard-card > p {
+    color: #64748b;
+}
+
+
+/* Dashboard Buttons */
+
+.dashboard-button {
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+}
+
+.dashboard-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.dashboard-button strong {
+    color: inherit;
+}
+
+.dashboard-button small {
+    opacity: 0.8;
+}
+
+
+/* Course Button */
+
+.course-button {
+    background: #f5f3ff;
+    color: #7c3aed;
+    border-color: #ddd6fe;
+}
+
+.course-button:hover {
+    background: #ede9fe;
+}
+
+
+/* Registration Button */
+
+.registration-button {
+    background: #eff6ff;
+    color: #2563eb;
+    border-color: #dbeafe;
+}
+
+
+/* Fee Payment */
+
+.fee-payment-button {
+    background: #ecfdf5;
+    color: #059669;
+    border-color: #d1fae5;
+}
+
+
+/* Certificate */
+
+.certificate-button {
+    background: #fff7ed;
+    color: #ea580c;
+    border-color: #fed7aa;
+}
+
+
+/* My Certificate */
+
+.my-certificate-button {
+    background: #fefce8;
+    color: #ca8a04;
+    border-color: #fef08a;
+}
+
+
+/* Notifications */
+
+.notification-button {
+    background: #fdf2f8;
+    color: #db2777;
+    border-color: #fbcfe8;
+}
+
+.notification-button .button-icon {
+    position: relative;
+}
+
+
+/* Notification Badge */
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+
+    min-width: 21px;
+    height: 21px;
+
+    padding: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ef4444;
+    color: white;
+
+    border: 2px solid white;
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* Logout */
+
+.dashboard-top .logout-button {
+    margin: 0;
+}
+
+
+/* ============================= */
+/*        COURSE DOCUMENT        */
+/* ============================= */
+
+.course-document-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.course-document-buttons a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #eef2ff;
+    color: #4f46e5;
+    transition: 0.2s;
+}
+
+.course-document-buttons a:hover {
+    background: #4f46e5;
+    color: white;
+}
+
+
+/* Send Button */
+
+.send-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 14px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #f0fdf4;
+    color: #15803d;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.send-button:hover {
+    background: #15803d;
+    color: white;
+}
+
+
+/* ============================= */
+/*       NOTIFICATION PAGE       */
+/* ============================= */
+
+.notification-page {
+    min-height: 100vh;
+    padding: 40px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #fdf2f8,
+        #f8fafc,
+        #eef2ff
+    );
+}
+
+.notification-container {
+    width: 100%;
+    max-width: 1000px;
+
+    margin: auto;
+
+    padding: 35px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 20px 45px rgba(15, 23, 42, 0.08),
+        0 5px 15px rgba(15, 23, 42, 0.04);
+}
+
+.notification-container h1 {
+    color: #1e293b;
+    margin-bottom: 25px;
+}
+
+
+/* Notification Card */
+
+.notification-card {
+    padding: 22px;
+
+    margin-bottom: 16px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-left: 4px solid #db2777;
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.05);
+
+    transition: 0.2s;
+}
+
+.notification-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+.notification-card h3 {
+    margin-bottom: 8px;
+    color: #334155;
+    font-size: 18px;
+}
+
+.notification-card p {
+    margin-bottom: 12px;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.notification-card small {
+    display: block;
+    margin-top: 12px;
+    color: #94a3b8;
+}
+
+
+/* Notification Document */
+
+.notification-document {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.notification-document a {
+    text-decoration: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.notification-document a:hover {
+    background: #4f46e5;
+    color: white;
+}
+
+
+/* Mark as Read */
+
+.read-button {
+    margin-top: 14px;
+
+    padding: 8px 14px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #dcfce7;
+    color: #15803d;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.read-button:hover {
+    background: #15803d;
+    color: white;
+}
+
+
+/* ============================= */
+/*       CERTIFICATE PAGE        */
+/* ============================= */
+
+.certificate-page {
+    min-height: 100vh;
+
+    padding: 40px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #fff7ed,
+        #f8fafc,
+        #eef2ff
+    );
+}
+
+.certificate-container {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: auto;
+
+    padding: 35px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 20px 45px rgba(15, 23, 42, 0.08),
+        0 5px 15px rgba(15, 23, 42, 0.04);
+}
+
+.certificate-container h1 {
+    color: #1e293b;
+    margin-bottom: 25px;
+}
+
+.certificate-container h2 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: #334155;
+}
+
+
+/* Certificate Form */
+
+.certificate-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.certificate-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.certificate-form label {
+    margin-bottom: 8px;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.certificate-form input,
+.certificate-form select {
+    width: 100%;
+    height: 44px;
+
+    padding: 10px 13px;
+
+    border: 1px solid #d9dce5;
+    border-radius: 8px;
+
+    background: white;
+
+    color: #334155;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+.certificate-form input:focus,
+.certificate-form select:focus {
+    border-color: #4f46e5;
+
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.08);
+}
+
+.certificate-form button {
+    grid-column: 1 / -1;
+
+    border: none;
+
+    padding: 12px 22px;
+
+    border-radius: 8px;
+
+    background: #4f46e5;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.certificate-form button:hover {
+    background: #4338ca;
+}
+
+
+/* Certificate List */
+
+.certificate-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.certificate-card {
+    padding: 22px;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    box-shadow: 0 5px 16px rgba(15, 23, 42, 0.05);
+
+    transition: 0.2s;
+}
+
+.certificate-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.certificate-card h3 {
+    margin-bottom: 16px;
+    color: #4f46e5;
+    font-size: 18px;
+}
+
+.certificate-card p {
+    margin: 9px 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.certificate-card p strong {
+    color: #334155;
+}
+
+
+/* Certificate Buttons */
+
+.certificate-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.certificate-actions a {
+    flex: 1;
+
+    text-align: center;
+    text-decoration: none;
+
+    padding: 9px 10px;
+
+    border-radius: 8px;
+
+    background: #eef2ff;
+    color: #4f46e5;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.certificate-actions a:hover {
+    background: #4f46e5;
+    color: white;
+}
+
+
+/* ============================= */
+/*          RESPONSIVE           */
+/* ============================= */
+
+@media (max-width: 900px) {
+
+    .certificate-list {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .dashboard-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .dashboard-top .logout-button {
+        align-self: flex-end;
+    }
+
+    .certificate-form {
+        grid-template-columns: 1fr;
+    }
+
+    .certificate-form button {
+        grid-column: auto;
+    }
+
+    .notification-container,
+    .certificate-container {
+        padding: 22px;
+    }
+
+    .certificate-list {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .course-document-buttons,
+    .notification-document,
+    .certificate-actions {
+        flex-direction: column;
+    }
+
+    .course-document-buttons a,
+    .certificate-actions a {
+        width: 100%;
+    }
+
+}
+/* ============================= */
+/*      LIGHT COLOR ON HOVER     */
+/* ============================= */
+
+.dashboard-count:hover {
+    background: #e0e7ff !important;
+    color: #4338ca;
+}
+
+.dashboard-count:hover h2,
+.dashboard-count:hover span {
+    color: #4338ca !important;
+}
+
+
+.add-student:hover {
+    background: #e0e7ff !important;
+    color: #4f46e5;
+}
+
+.view-student:hover {
+    background: #d1fae5 !important;
+    color: #059669;
+}
+
+.attendance-button:hover {
+    background: #cffafe !important;
+    color: #0e7490;
+}
+
+.course-button:hover {
+    background: #ede9fe !important;
+    color: #7c3aed;
+}
+
+.registration-button:hover {
+    background: #dbeafe !important;
+    color: #2563eb;
+}
+
+.fee-payment-button:hover {
+    background: #d1fae5 !important;
+    color: #059669;
+}
+
+.certificate-button:hover {
+    background: #ffedd5 !important;
+    color: #ea580c;
+}
+
+.my-certificate-button:hover {
+    background: #fef3c7 !important;
+    color: #ca8a04;
+}
+
+.notification-button:hover {
+    background: #fce7f3 !important;
+    color: #db2777;
+}
+
+
+/* Student / Course / Notification / Certificate Cards */
+
+.student-box:hover {
+    background: #f5f7ff;
+}
+
+.course-card:hover {
+    background: #faf8ff;
+}
+
+.notification-card:hover {
+    background: #fff7fb;
+}
+
+.certificate-card:hover {
+    background: #fffaf5;
+}
+
+
+/* Fee / Receipt Boxes */
+
+.fee-summary-box:hover {
+    background: #f5f7ff;
+}
+
+.receipt-section:hover {
+    background: #fafbff;
+}
+
+.receipt-remarks:hover {
+    background: #fafbff;
+}
+
+/* ============================= */
+/*       DARK BOX BORDERS        */
+/* ============================= */
+
+.dashboard-count,
+.dashboard-button,
+.student-box,
+.course-card,
+.notification-card,
+.certificate-card,
+.fee-summary-box,
+.receipt-section,
+.receipt-remarks {
+    border: 1px solid #94a3b8;
+}
+
+
+/* Slightly darker border on hover */
+
+.dashboard-count:hover,
+.dashboard-button:hover,
+.student-box:hover,
+.course-card:hover,
+.notification-card:hover,
+.certificate-card:hover,
+.fee-summary-box:hover,
+.receipt-section:hover,
+.receipt-remarks:hover {
+    border-color: #64748b;
+}
+
+/* ============================= */
+/*       BUTTON HOVER EFFECT     */
+/* ============================= */
+
+.dashboard-button,
+.main-button,
+.course-card-buttons button,
+.student-buttons button,
+.attendance-buttons button,
+.fee-payment-buttons button,
+.registration-buttons button,
+.course-buttons button,
+.read-button,
+.send-button {
+    transition: all 0.25s ease;
+}
+
+
+/* Dashboard Buttons */
+
+.add-student {
+    border: 1px solid #a5b4fc;
+}
+
+.add-student:hover {
+    background: #e0e7ff !important;
+    border-color: #818cf8;
+}
+
+.view-student {
+    border: 1px solid #86efac;
+}
+
+.view-student:hover {
+    background: #d1fae5 !important;
+    border-color: #4ade80;
+}
+
+.attendance-button {
+    border: 1px solid #67e8f9;
+}
+
+.attendance-button:hover {
+    background: #cffafe !important;
+    border-color: #22d3ee;
+}
+
+.course-button {
+    border: 1px solid #c4b5fd;
+}
+
+.course-button:hover {
+    background: #ede9fe !important;
+    border-color: #a78bfa;
+}
+
+.registration-button {
+    border: 1px solid #93c5fd;
+}
+
+.registration-button:hover {
+    background: #dbeafe !important;
+    border-color: #60a5fa;
+}
+
+.fee-payment-button {
+    border: 1px solid #86efac;
+}
+
+.fee-payment-button:hover {
+    background: #d1fae5 !important;
+    border-color: #4ade80;
+}
+
+.certificate-button {
+    border: 1px solid #fdba74;
+}
+
+.certificate-button:hover {
+    background: #ffedd5 !important;
+    border-color: #fb923c;
+}
+
+.my-certificate-button {
+    border: 1px solid #fde68a;
+}
+
+.my-certificate-button:hover {
+    background: #fef3c7 !important;
+    border-color: #facc15;
+}
+
+.notification-button {
+    border: 1px solid #f9a8d4;
+}
+
+.notification-button:hover {
+    background: #fce7f3 !important;
+    border-color: #f472b6;
+}
+
+
+/* Send Button */
+
+.send-button {
+    border: 1px solid #86efac;
+}
+
+.send-button:hover {
+    background: #dcfce7;
+    border-color: #4ade80;
+}
+
+
+/* Read Button */
+
+.read-button {
+    border: 1px solid #86efac;
+}
+
+.read-button:hover {
+    background: #dcfce7;
+    border-color: #4ade80;
+}
