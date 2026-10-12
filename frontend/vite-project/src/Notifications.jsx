@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function Notifications({ studentId }) {
+function Notifications({ studentId, setPage }) {
 
     const [notifications, setNotifications] = useState([]);
 
@@ -51,6 +51,12 @@ function Notifications({ studentId }) {
 
         <div className="notification-page">
             <div className="notification-container">
+                <button
+                    type="button"
+                    className="back-button"
+                    onClick={() => setPage("dashboard")} >
+                    ← Back to Dashboard
+                </button>
 
                 <h1>
                     Notifications

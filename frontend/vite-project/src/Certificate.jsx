@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function Certificate() {
+function Certificate({ setPage }) {
 
     const [students, setStudents] = useState([]);
     const [courses, setCourses] = useState([]);
@@ -193,6 +193,12 @@ function Certificate() {
         <div className="certificate-page">
 
             <div className="certificate-container">
+                <button
+                    type="button"
+                    className="back-button"
+                    onClick={() => setPage("dashboard")} >
+                    ← Back to Dashboard
+                </button>
 
                 <h1>
                     Add Certificate

@@ -265,6 +265,12 @@ function FeePayment({ setPage, setSelectedPayment }) {
         <div className="fee-payment-page">
 
             <div className="fee-payment-container">
+                <button
+                    type="button"
+                    className="back-button"
+                    onClick={() => setPage("dashboard")} >
+                    ← Back to Dashboard
+                </button>
 
                 <h1>Fee Payment</h1>
 

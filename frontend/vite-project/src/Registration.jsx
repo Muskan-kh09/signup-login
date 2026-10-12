@@ -250,16 +250,18 @@ function Registration({ setPage }) {
         <div className="registration-page">
 
             <div className="registration-container">
+                <button
+                    type="button"
+                    className="back-button"
+                    onClick={() => setPage("dashboard")} >
+                    ← Back to Dashboard
+                </button>
 
                 <h1>Student Registration</h1>
-
                 <p>
                     Register a student for a training course
                 </p>
-
-
                 {/* Registration Form */}
-
                 <form
                     className="registration-form"
                     onSubmit={handleSubmit}

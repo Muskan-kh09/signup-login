@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+
 import Student from "./Student";
 import Attendance from "./Attendance";
 import Course from "./Course";
@@ -9,6 +10,7 @@ import FeeReceipt from "./FeeReceipt";
 import Notifications from "./Notifications";
 import Certificate from "./Certificate";
 import MyCertificates from "./MyCertificates";
+import Navbar from "./Navbar";
 
 function Dashboard({
     logout,
@@ -25,6 +27,7 @@ function Dashboard({
     const [unreadNotifications, setUnreadNotifications] = useState(0);
 
 
+    // Fetch dashboard data
     useEffect(() => {
 
         getStudentCount();
@@ -35,6 +38,7 @@ function Dashboard({
     }, [page]);
 
 
+    // Get total students
     const getStudentCount = async () => {
 
         try {
@@ -57,6 +61,7 @@ function Dashboard({
     };
 
 
+    // Get today's attendance
     const getTodayAttendance = async () => {
 
         try {
@@ -80,353 +85,547 @@ function Dashboard({
     };
 
 
+    // Get overall attendance
     const getOverallAttendance = async () => {
+
         try {
+
             const response = await axios.get(
                 "http://localhost:5000/api/attendance/overall"
             );
+
             setOverallAttendance(
                 response.data.percentage
             );
+
         } catch (error) {
+
             console.log(
                 "Overall attendance error:",
                 error
             );
+
         }
+
     };
 
+
+    // Get unread notification count
     const getUnreadNotifications = async () => {
 
-    const studentId = localStorage.getItem(
-        "notificationStudentId"
+        const studentId = localStorage.getItem(
+            "notificationStudentId"
+        );
+
+        if (!studentId) {
+
+            setUnreadNotifications(0);
+            return;
+
+        }
+
+        try {
+
+            const response = await axios.get(
+                `http://localhost:5000/api/notifications/${studentId}`
+            );
+
+            const unread = response.data.filter(
+                (notification) => !notification.isRead
+            ).length;
+
+            setUnreadNotifications(unread);
+
+        } catch (error) {
+
+            console.log(
+                "Unread notification error:",
+                error
+            );
+
+        }
+
+    };
+
+
+    // Common Navbar for all pages
+    const navbar = (
+        <Navbar
+            page={page}
+            setPage={setPage}
+            logout={logout}
+            unreadNotifications={unreadNotifications}
+        />
     );
-    if (!studentId) {
-        setUnreadNotifications(0);
-        return;
-    }
-    try {
-        const response = await axios.get(
-            `http://localhost:5000/api/notifications/${studentId}`
-        );
-        const unread = response.data.filter(
-            (notification) => !notification.isRead
-        ).length;
-        setUnreadNotifications(unread);
-    } catch (error) {
-        console.log(
-            "Unread notification error:",
-            error
-        );
-    }
-};
-
-    
 
 
+    // Add Student page
     if (page === "add") {
+
         return (
-            <Student
-                page="add"
-                setPage={setPage}
-            />
+            <>
+                {navbar}
+
+                <Student
+                    page="add"
+                    setPage={setPage}
+                />
+            </>
         );
+
     }
 
+
+    // View Students page
     if (page === "students") {
+
         return (
-            <Student
-                page="students"
-                setPage={setPage}
-            />
+            <>
+                {navbar}
+
+                <Student
+                    page="students"
+                    setPage={setPage}
+                />
+            </>
         );
+
     }
 
+
+    // Attendance page
     if (page === "attendance") {
+
         return (
-            <Attendance
-                setPage={setPage}
-            />
+            <>
+                {navbar}
+
+                <Attendance
+                    setPage={setPage}
+                />
+            </>
         );
+
     }
 
+
+    // Course page
     if (page === "course") {
+
         return (
-            <Course
-                setPage={setPage}
-            />
+            <>
+                {navbar}
+
+                <Course
+                    setPage={setPage}
+                />
+            </>
         );
+
     }
 
+
+    // Registration page
     if (page === "registration") {
+
         return (
-            <Registration
-                setPage={setPage}
-            />
+            <>
+                {navbar}
+
+                <Registration
+                    setPage={setPage}
+                />
+            </>
         );
+
     }
 
+
+    // Fee Payment page
     if (page === "fee-payment") {
+
         return (
-            <FeePayment
-                setPage={setPage}
-                setSelectedPayment={setSelectedPayment}
-            />
+            <>
+                {navbar}
+
+                <FeePayment
+                    setPage={setPage}
+                    setSelectedPayment={setSelectedPayment}
+                />
+            </>
         );
+
     }
 
+
+    // Fee Receipt page
     if (page === "fee-receipt") {
+
         return (
-            <FeeReceipt
-                payment={selectedPayment}
-                setPage={setPage}
-            />
+            <>
+                {navbar}
+
+                <FeeReceipt
+                    payment={selectedPayment}
+                    setPage={setPage}
+                />
+            </>
         );
+
     }
 
+
+    // Manage Certificates page
     if (page === "certificate") {
+
         return (
-            <Certificate />
+            <>
+                {navbar}
+
+                <Certificate
+                    setPage={setPage}
+                />
+            </>
         );
+
     }
 
+
+    // My Certificates page
     if (page === "my-certificates") {
+
         return (
-            <MyCertificates />
+            <>
+                {navbar}
+
+                <MyCertificates
+                    setPage={setPage}
+                />
+            </>
         );
+
     }
 
+
+    // Notifications page
     if (page === "notifications") {
+
         return (
-            <Notifications
-                studentId={localStorage.getItem(
-                    "notificationStudentId"
-                )}
-            />
+            <>
+                {navbar}
+
+                <Notifications
+                    studentId={localStorage.getItem(
+                        "notificationStudentId"
+                    )}
+                    setPage={setPage}
+                />
+            </>
         );
+
     }
 
+
+    // Main Dashboard
     return (
-        <div className="dashboard-container">
-            <div className="dashboard-card">
-                <div className="dashboard-top">
-                    <h1>Student Dashboard</h1>
-                    <button
-                        className="logout-button"
-                        onClick={logout}
-                        >
-                        Logout
-                    </button>
-                </div>
-                <p>
-                    Manage your students from here
-                </p>
-                <div className="dashboard-stats">
-                    <div className="dashboard-count">
-                        <h2>
-                            {totalStudents}
-                        </h2>
-                        <span>
-                            Total Students
-                        </span>
+
+        <>
+
+            {navbar}
+
+            <div className="dashboard-container">
+
+                <div className="dashboard-card">
+
+                    <div className="dashboard-top">
+
+                        <h1>Student Dashboard</h1>
+
                     </div>
-                    <div className="dashboard-count present-count">
-                        <h2>
-                            {presentToday}
-                        </h2>
-                        <span>
-                            Present Today
-                        </span>
+
+                    <p>
+                        Manage your students from here
+                    </p>
+
+
+                    {/* Dashboard Statistics */}
+
+                    <div className="dashboard-stats">
+
+                        <div className="dashboard-count">
+
+                            <h2>
+                                {totalStudents}
+                            </h2>
+
+                            <span>
+                                Total Students
+                            </span>
+
+                        </div>
+
+
+                        <div className="dashboard-count present-count">
+
+                            <h2>
+                                {presentToday}
+                            </h2>
+
+                            <span>
+                                Present Today
+                            </span>
+
+                        </div>
+
+
+                        <div className="dashboard-count absent-count">
+
+                            <h2>
+                                {absentToday}
+                            </h2>
+
+                            <span>
+                                Absent Today
+                            </span>
+
+                        </div>
+
+
+                        <div className="dashboard-count overall-count">
+
+                            <h2>
+                                {overallAttendance.toFixed(2)}%
+                            </h2>
+
+                            <span>
+                                Overall Attendance
+                            </span>
+
+                        </div>
+
                     </div>
-                    <div className="dashboard-count absent-count">
-                        <h2>
-                            {absentToday}
-                        </h2>
-                        <span>
-                            Absent Today
-                        </span>
-                    </div>
-                    <div className="dashboard-count overall-count">
-                        <h2>
-                            {overallAttendance.toFixed(2)}%
-                        </h2>
-                        <span>
-                            Overall Attendance
-                        </span>
-                    </div>
-                </div>
-                <div className="dashboard-buttons">
-
-                    <button
-                        className="dashboard-button add-student"
-                        onClick={() => setPage("add")}
-                    >
-
-                        <span className="button-icon">
-                            +
-                        </span>
-
-                        <strong>
-                            Add Student
-                        </strong>
-
-                        <small>
-                            Add a new student
-                        </small>
-
-                    </button>
 
 
-                    <button
-                        className="dashboard-button view-student"
-                        onClick={() => setPage("students")}
-                    >
+                    {/* Dashboard Navigation Cards */}
 
-                        <span className="button-icon">
-                            👥
-                        </span>
+                    <div className="dashboard-buttons">
 
-                        <strong>
-                            View Students
-                        </strong>
+                        {/* Add Student */}
 
-                        <small>
-                            View all students
-                        </small>
-
-                    </button>
-
-
-                    <button
-                        className="dashboard-button attendance-button"
-                        onClick={() => setPage("attendance")}
-                    >
-
-                        <span className="button-icon">
-                            📋
-                        </span>
-
-                        <strong>
-                            Mark Attendance
-                        </strong>
-
-                        <small>
-                            Mark student attendance
-                        </small>
-
-                    </button>
-
-
-                    <button
-                        className="dashboard-button course-button"
-                        onClick={() => setPage("course")}
-                    >
-
-                        <span className="button-icon">
-                            📚
-                        </span>
-
-                        <strong>
-                            Manage Courses
-                        </strong>
-
-                        <small>
-                            Add and manage training courses
-                        </small>
-
-                    </button>
-
-
-                    <button
-                        className="dashboard-button registration-button"
-                        onClick={() => setPage("registration")}
-                    >
-
-                        <span className="button-icon">
-                            📝
-                        </span>
-
-                        <strong>
-                            Student Registration
-                        </strong>
-
-                        <small>
-                            Register student for a course
-                        </small>
-
-                    </button>
-
-
-                    <button
-                        className="dashboard-button fee-payment-button"
-                        onClick={() => setPage("fee-payment")}
-                    >
-                        <span className="button-icon">
-                            💰
-                        </span>
-                        <strong>
-                            Fee Payment
-                        </strong>
-                        <small>
-                            Manage student fees and installments
-                        </small>
-                    </button>
-
-                    <button
-                        className="dashboard-button certificate-button"
-                        onClick={() => setPage("certificate")}
-                        >
-                        <span className="button-icon">
-                            🎓
-                        </span>
-                        <strong>
-                            Certificates
-                        </strong>
-                        <small>
-                            Manage student certificates
-                        </small>
-                    </button>
-                    <button
-                        className="dashboard-button my-certificate-button"
-                        onClick={() => setPage("my-certificates")}
+                        <button
+                            className="dashboard-button add-student"
+                            onClick={() => setPage("add")}
                         >
 
-                        <span className="button-icon">
-                            🏆
-                        </span>
+                            <span className="button-icon">
+                                +
+                            </span>
 
-                        <strong>
-                            My Certificates
-                        </strong>
+                            <strong>
+                                Add Student
+                            </strong>
 
-                        <small>
-                            View student certificates
-                        </small>
+                            <small>
+                                Add a new student
+                            </small>
 
-                    </button>
-                    <button
-                        className="dashboard-button notification-button"
-                        onClick={() => setPage("notifications")}
-                         >
-                        <span className="button-icon">
-                            🔔
-                            {unreadNotifications > 0 && (
-                                <span className="notification-badge">
-                                    {unreadNotifications}
-                                </span>
-                            )}
-                        </span>
-                        <strong>
-                            Notifications
-                        </strong>
-                        <small>
-                            View student notifications
-                        </small>
-                    </button>
+                        </button>
+
+
+                        {/* View Students */}
+
+                        <button
+                            className="dashboard-button view-student"
+                            onClick={() => setPage("students")}
+                        >
+
+                            <span className="button-icon">
+                                👥
+                            </span>
+
+                            <strong>
+                                View Students
+                            </strong>
+
+                            <small>
+                                View all students
+                            </small>
+
+                        </button>
+
+
+                        {/* Attendance */}
+
+                        <button
+                            className="dashboard-button attendance-button"
+                            onClick={() => setPage("attendance")}
+                        >
+
+                            <span className="button-icon">
+                                📋
+                            </span>
+
+                            <strong>
+                                Mark Attendance
+                            </strong>
+
+                            <small>
+                                Mark student attendance
+                            </small>
+
+                        </button>
+
+
+                        {/* Courses */}
+
+                        <button
+                            className="dashboard-button course-button"
+                            onClick={() => setPage("course")}
+                        >
+
+                            <span className="button-icon">
+                                📚
+                            </span>
+
+                            <strong>
+                                Manage Courses
+                            </strong>
+
+                            <small>
+                                Add and manage training courses
+                            </small>
+
+                        </button>
+
+
+                        {/* Registration */}
+
+                        <button
+                            className="dashboard-button registration-button"
+                            onClick={() => setPage("registration")}
+                        >
+
+                            <span className="button-icon">
+                                📝
+                            </span>
+
+                            <strong>
+                                Student Registration
+                            </strong>
+
+                            <small>
+                                Register student for a course
+                            </small>
+
+                        </button>
+
+
+                        {/* Fee Payment */}
+
+                        <button
+                            className="dashboard-button fee-payment-button"
+                            onClick={() => setPage("fee-payment")}
+                        >
+
+                            <span className="button-icon">
+                                💰
+                            </span>
+
+                            <strong>
+                                Fee Payment
+                            </strong>
+
+                            <small>
+                                Manage student fees and installments
+                            </small>
+
+                        </button>
+
+
+                        {/* Manage Certificates */}
+
+                        <button
+                            className="dashboard-button certificate-button"
+                            onClick={() => setPage("certificate")}
+                        >
+
+                            <span className="button-icon">
+                                🎓
+                            </span>
+
+                            <strong>
+                                Certificates
+                            </strong>
+
+                            <small>
+                                Manage student certificates
+                            </small>
+
+                        </button>
+
+
+                        {/* My Certificates */}
+
+                        <button
+                            className="dashboard-button my-certificate-button"
+                            onClick={() => setPage("my-certificates")}
+                        >
+
+                            <span className="button-icon">
+                                🏆
+                            </span>
+
+                            <strong>
+                                My Certificates
+                            </strong>
+
+                            <small>
+                                View student certificates
+                            </small>
+
+                        </button>
+
+
+                        {/* Notifications */}
+
+                        <button
+                            className="dashboard-button notification-button"
+                            onClick={() => setPage("notifications")}
+                        >
+
+                            <span className="button-icon">
+                                🔔
+
+                                {unreadNotifications > 0 && (
+
+                                    <span className="notification-badge">
+                                        {unreadNotifications}
+                                    </span>
+
+                                )}
+
+                            </span>
+
+                            <strong>
+                                Notifications
+                            </strong>
+
+                            <small>
+                                View student notifications
+                            </small>
+
+                        </button>
+
+                    </div>
+
                 </div>
+
             </div>
-        </div>
+
+        </>
+
     );
+
 }
 
 export default Dashboard;

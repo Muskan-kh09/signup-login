@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function Course() {
+function Course({ setPage }) {
 
     const [courses, setCourses] = useState([]);
     const [students, setStudents] = useState([]);
@@ -380,7 +380,12 @@ function Course() {
         <div className="course-page">
 
             <div className="course-container">
-
+                <button
+                    type="button"
+                    className="back-button"
+                    onClick={() => setPage("dashboard")} >
+                    ← Back to Dashboard
+                </button>
                 <h1>
                     {editCourse
                         ? "Edit Course"

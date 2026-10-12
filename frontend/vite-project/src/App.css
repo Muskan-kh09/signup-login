@@ -3543,3 +3543,509 @@ body {
     background: #dcfce7;
     border-color: #4ade80;
 }
+
+/* ============================= */
+/*       STUDENT PORTAL NAVBAR   */
+/* ============================= */
+
+.top-navbar {
+    width: 100% !important;
+    min-height: 75px;
+    padding: 15px 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    background: #ffffff;
+    border-bottom: 1px solid #cbd5e1;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08);
+
+    position: relative;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    color: #4338ca;
+    font-size: 21px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.navbar-links button {
+    position: relative;
+    padding: 9px 12px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+
+    background: #f8fafc;
+    color: #334155;
+
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.navbar-links button:hover {
+    background: #e0e7ff;
+    border-color: #a5b4fc;
+    color: #4338ca;
+}
+
+.navbar-logout {
+    padding: 10px 18px;
+
+    border: 1px solid #fca5a5;
+    border-radius: 8px;
+
+    background: #fff1f2;
+    color: #be123c;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.navbar-logout:hover {
+    background: #ffe4e6;
+    border-color: #fb7185;
+}
+
+/* Notification count */
+
+.navbar-links .notification-badge {
+    position: absolute;
+    top: -9px;
+    right: -8px;
+
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ef4444;
+    color: #ffffff;
+
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Mobile screen */
+
+@media (max-width: 768px) {
+    .top-navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 18px;
+    }
+
+    .navbar-links {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .navbar-links button {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .navbar-logout {
+        align-self: flex-end;
+    }
+}
+
+/* ===================================== */
+/*       PREMIUM STUDENT PORTAL NAVBAR   */
+/* ===================================== */
+
+.top-navbar {
+    width: 100%;
+    min-height: 82px;
+    padding: 16px 28px;
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 24px;
+
+    background: linear-gradient(
+        120deg,
+        #ffffff 0%,
+        #f5f3ff 50%,
+        #eef2ff 100%
+    );
+
+    border-bottom: 1px solid #c7d2fe;
+    box-shadow: 0 5px 22px rgba(79, 70, 229, 0.09);
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+
+/* Portal Logo / Name */
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #3730a3;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+
+    white-space: nowrap;
+}
+
+
+/* Navigation Links */
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    scrollbar-width: none;
+}
+
+.navbar-links::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Navigation Buttons */
+
+.navbar-links button {
+    position: relative;
+    flex: 0 0 auto;
+
+    padding: 10px 13px;
+
+    border: 1px solid #e0e7ff;
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.85);
+    color: #475569;
+
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* Light Color Fill on Hover */
+
+.navbar-links button:hover {
+    background: #e0e7ff;
+    border-color: #a5b4fc;
+    color: #4338ca;
+
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.10);
+    transform: translateY(-2px);
+}
+
+
+/* Keyboard Focus */
+
+.navbar-links button:focus-visible,
+.navbar-logout:focus-visible {
+    outline: 3px solid #c4b5fd;
+    outline-offset: 3px;
+}
+
+
+/* Notifications Badge */
+
+.navbar-links button .notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -7px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 21px;
+    height: 21px;
+    padding: 0 5px;
+
+    background: #fb7185;
+    color: #ffffff;
+
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    box-shadow: 0 2px 6px rgba(251, 113, 133, 0.25);
+}
+
+
+/* Premium Logout Button */
+
+.navbar-logout {
+    padding: 11px 19px;
+
+    border: 1px solid #fecdd3;
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #fff1f2,
+        #ffe4e6
+    );
+
+    color: #be123c;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    white-space: nowrap;
+    cursor: pointer;
+
+    box-shadow: 0 3px 9px rgba(190, 18, 60, 0.06);
+
+    transition: all 0.25s ease;
+}
+
+
+.navbar-logout:hover {
+    background: #ffe4e6;
+    border-color: #fda4af;
+
+    box-shadow: 0 5px 14px rgba(190, 18, 60, 0.12);
+    transform: translateY(-2px);
+}
+
+
+/* ===================================== */
+/*             RESPONSIVE                */
+/* ===================================== */
+
+@media (max-width: 1200px) {
+
+    .top-navbar {
+        grid-template-columns: 1fr auto;
+        gap: 14px 18px;
+        padding: 16px 22px;
+    }
+
+    .navbar-brand {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .navbar-logout {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .navbar-links {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-content: flex-start;
+        padding: 4px 2px 8px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .top-navbar {
+        padding: 15px;
+        gap: 14px;
+    }
+
+    .navbar-brand {
+        font-size: 19px;
+    }
+
+    .navbar-links {
+        gap: 7px;
+    }
+
+    .navbar-links button {
+        padding: 9px 11px;
+        font-size: 12px;
+    }
+
+    .navbar-logout {
+        padding: 9px 13px;
+        font-size: 12px;
+    }
+
+}
+
+/* Student Portal Center Alignment */
+
+.top-navbar {
+    position: sticky;
+    top: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+    padding: 20px 25px;
+}
+
+/* Student Portal heading center mein */
+
+.navbar-brand {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: #4338ca;
+}
+
+/* Navigation buttons */
+
+.navbar-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow: visible;
+}
+
+/* Logout right side */
+
+.top-navbar .navbar-logout {
+    position: absolute;
+    top: 18px;
+    right: 25px;
+    margin: 0;
+}
+
+/* Mobile screen */
+
+@media (max-width: 600px) {
+    .top-navbar {
+        padding: 18px 12px;
+        gap: 14px;
+    }
+
+    .navbar-brand {
+        font-size: 22px;
+        padding: 0 70px;
+    }
+
+    .top-navbar .navbar-logout {
+        top: 12px;
+        right: 12px;
+        padding: 8px 10px;
+    }
+
+    .navbar-links {
+        justify-content: center;
+    }
+}
+
+/* ================================= */
+/* NAVBAR BUTTON BORDER + LIGHT HOVER */
+/* ================================= */
+
+.top-navbar .navbar-links button {
+    border: 1.5px solid #a5b4fc !important;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #475569;
+
+    transition: all 0.25s ease;
+}
+
+/* Mouse hover par light color fill */
+
+.top-navbar .navbar-links button:hover {
+    background: #e0e7ff !important;
+    border-color: #818cf8 !important;
+    color: #4338ca !important;
+
+    box-shadow: 0 3px 10px rgba(99, 102, 241, 0.10);
+}
+
+/* Button press karne par */
+
+.top-navbar .navbar-links button:active {
+    background: #c7d2fe !important;
+    border-color: #818cf8 !important;
+}
+
+/* Active Navbar Button */
+
+.top-navbar .navbar-links button.active-nav {
+    background: #e0e7ff !important;
+    border-color: #818cf8 !important;
+    color: #4338ca !important;
+
+    box-shadow: 0 3px 10px rgba(99, 102, 241, 0.12);
+    font-weight: 700;
+}
+
+/* Lavender Active Navbar Button */
+
+.top-navbar .navbar-links button.active-nav {
+    background: #ddd6fe !important;
+    border: 1px solid #a78bfa !important;
+    color: #5b21b6 !important;
+
+    box-shadow: 0 3px 10px rgba(139, 92, 246, 0.15);
+    font-weight: 700;
+}
+
+/* Hover par light lavender */
+
+.top-navbar .navbar-links button:hover {
+    background: #ede9fe !important;
+    border-color: #c4b5fd !important;
+    color: #5b21b6 !important;
+}

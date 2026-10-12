@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function MyCertificates() {
-
+function MyCertificates({ setPage }) {
     const [certificates, setCertificates] = useState([]);
 
     const studentId = localStorage.getItem(
@@ -48,7 +47,12 @@ function MyCertificates() {
         <div className="certificate-page">
 
             <div className="certificate-container">
-
+                <button
+                    type="button"
+                    className="back-button"
+                    onClick={() => setPage("dashboard")} >
+                    ← Back to Dashboard
+                </button>
                 <h1>
                     My Certificates
                 </h1>

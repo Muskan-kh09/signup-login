@@ -355,7 +355,7 @@ function Attendance({ setPage }) {
                     className="back-button"
                     onClick={() => setPage("dashboard")}
                 >
-                    ← Dashboard
+                    ← Back to Dashboard
                 </button>
 
 
