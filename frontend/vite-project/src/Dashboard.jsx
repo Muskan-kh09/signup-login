@@ -13,6 +13,7 @@ import MyCertificates from "./MyCertificates";
 import Navbar from "./Navbar";
 
 function Dashboard({
+    userRole,
     logout,
     selectedPayment,
     setSelectedPayment
@@ -152,6 +153,7 @@ function Dashboard({
     const navbar = (
         <Navbar
             page={page}
+            userRole={userRole}
             setPage={setPage}
             logout={logout}
             unreadNotifications={unreadNotifications}
@@ -325,6 +327,59 @@ function Dashboard({
 
     }
 
+    // Student Dashboard
+    if (userRole !== "admin") {
+        return (
+            <>
+                {navbar}
+                <div className="dashboard-container">
+                    <div className="dashboard-card student-home-card">
+                        <h1>
+                            🎓 Student Dashboard
+                        </h1>
+                        <p>
+                            Welcome to your Student Portal
+                        </p>
+                        <div className="student-dashboard-actions">
+                            <button
+                                className="dashboard-button notification-button"
+                                onClick={() => setPage("notifications")}
+                            >
+                                <span className="button-icon">
+                                    🔔
+                                </span>
+                                <strong>
+                                    My Notifications
+                                </strong>
+                                <small>
+                                    View course documents and updates
+                                </small>
+                                {unreadNotifications > 0 && (
+                                    <span className="notification-badge">
+                                        {unreadNotifications} Unread
+                                    </span>
+                                )}
+                            </button>
+                            <button
+                                className="dashboard-button my-certificate-button"
+                                onClick={() => setPage("my-certificates")}
+                            >
+                                <span className="button-icon">
+                                    🏆
+                                </span>
+                                <strong>
+                                    My Certificates
+                                </strong>
+                                <small>
+                                    View and download your certificates
+                                </small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    }
 
     // Main Dashboard
     return (

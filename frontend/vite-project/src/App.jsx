@@ -113,11 +113,19 @@ function App() {
 
             localStorage.setItem("isLoggedIn", "true");
             localStorage.setItem(
+                "token",
+                response.data.token
+            );
+            localStorage.setItem(
+                "userRole",
+                response.data.user.role || "student"
+            );
+            localStorage.setItem(
                 "notificationStudentId",
                 response.data.user.studentId || ""
             );
 
-setPage("dashboard");
+        setPage("dashboard");
 
         } catch (error) {
 
@@ -133,11 +141,15 @@ setPage("dashboard");
     if (page === "dashboard") {
         return (
             <Dashboard
+                userRole={localStorage.getItem("userRole") || "student"}
                 setPage={setPage}
                 selectedPayment={selectedPayment}
                 setSelectedPayment={setSelectedPayment}
                 logout={() => {
                     localStorage.removeItem("isLoggedIn");
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("notificationStudentId");
                     setPage("login");
                 }}
             />
